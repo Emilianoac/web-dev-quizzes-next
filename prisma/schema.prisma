@@ -12,3 +12,48 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Area {
+  id              String          @id @default(uuid())
+  name            String          @unique
+  tecnologies     Technology[]    // Relationship one-to-many with Technology,
+}
+
+model Technology {
+  id              String          @id @default(uuid())
+  name            String          @unique
+  icon            String    
+  areaId          String          // Foreign key
+  area            Area            @relation(fields: [areaId], references: [id]) // Relationship many-to-one with Area
+  Quiz Quiz[]                     // Relationship one-to-many with Quiz
+}
+
+model Quiz {
+  id              String          @id @default(uuid())
+  title           String          @unique
+  slug            String          @unique
+  description     String          @default("")
+  createdAt       DateTime        @default(now())
+  technologyId    String
+  technology      Technology      @relation(fields: [technologyId], references: [id])
+  questions       Question[]      
+}
+
+model Question {
+  id              String         @id @default(uuid())
+  quizId          String
+  quiz            Quiz           @relation(fields: [quizId], references: [id])
+  questionText    String
+  createdAt       DateTime       @default(now())
+  answers         Answer[]    
+  answerExplain   String      
+  codeExample     String      
+}
+
+model Answer {
+  id             String         @id @default(uuid())
+  questionId     String
+  question       Question       @relation(fields: [questionId], references: [id])
+  answerText     String
+  isCorrect      Boolean  
+}
