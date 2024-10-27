@@ -16,12 +16,14 @@ datasource db {
 model Area {
   id              String          @id @default(uuid())
   name            String          @unique
+  slug            String          @unique
   tecnologies     Technology[]    // Relationship one-to-many with Technology,
 }
 
 model Technology {
   id              String          @id @default(uuid())
   name            String          @unique
+  slug            String          @unique
   icon            String    
   areaId          String          // Foreign key
   area            Area            @relation(fields: [areaId], references: [id]) // Relationship many-to-one with Area
