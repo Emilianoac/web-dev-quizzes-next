@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AppNavbar from "@/components/AppNavbar";
 
 export const metadata: Metadata = {
   title: "Web dev quizzes",
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background text-black">
+        <AppNavbar />
         <div className="container my-5">
           {children}
         </div>
