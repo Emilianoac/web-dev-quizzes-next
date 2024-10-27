@@ -17,7 +17,7 @@ model Area {
   id              String          @id @default(uuid())
   name            String          @unique
   slug            String          @unique
-  tecnologies     Technology[]    // Relationship one-to-many with Technology,
+  technologies    Technology[]    // Relationship one-to-many with Technology,
 }
 
 model Technology {
@@ -27,7 +27,7 @@ model Technology {
   icon            String    
   areaId          String          // Foreign key
   area            Area            @relation(fields: [areaId], references: [id]) // Relationship many-to-one with Area
-  Quiz Quiz[]                     // Relationship one-to-many with Quiz
+  quiz            Quiz[]          // Relationship one-to-many with Quiz
 }
 
 model Quiz {
