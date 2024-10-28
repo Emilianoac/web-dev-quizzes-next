@@ -25,15 +25,16 @@ export default async function TechnologyPage() {
             <Image 
               src={technology.icon} 
               alt={technology.name} 
-              width={70} 
-              height={70} 
-              className="p-4" 
+              width={90} 
+              height={90} 
+              className="p-4 object-contain h-[90px]" 
             />
             <p className="font-semibold">
               {technology.name}
             </p>
             <p className="text-sm text-slate-500">
-              {technology.quiz.length} Quizzes
+              {technology.quiz.length > 0 ? technology.quiz.length : 0}
+              {technology.quiz.length === 1 ? ' Quiz' : ' Quizzes'}
             </p>
            </li>
         ))}
