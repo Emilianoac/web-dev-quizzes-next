@@ -25,6 +25,7 @@ model Technology {
   name            String          @unique
   slug            String          @unique
   icon            String    
+  iconName        String       
   areaId          String          // Foreign key
   area            Area            @relation(fields: [areaId], references: [id]) // Relationship many-to-one with Area
   quiz            Quiz[]          // Relationship one-to-many with Quiz
