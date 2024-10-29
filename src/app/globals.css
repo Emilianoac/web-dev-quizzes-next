@@ -11,6 +11,7 @@ input[type="email"],
 input[type="password"],
 input[type="number"],
 input[type="tel"],
+textarea,
 select {
   @apply text-black w-full rounded-md  
     border border-slate-400
