@@ -6,6 +6,10 @@ import prisma from "@/lib/prisma";
 import FirebaseStorageService from "@/lib/firebase/firebaseStorageService";
 import { revalidatePath } from "next/cache";
 
+export async function getTechnologies() {
+  return await prisma.technology.findMany();
+};
+
 export async function addTechnology(data: FormData) {
 
   const name = data.get("name") as string;
