@@ -15,8 +15,8 @@ export interface Question {
 }
 
 export interface Answer {
-  id: string;
   questionId?: string;
+  id: string;
   answerText: string;
   isCorrect: boolean;
 }
