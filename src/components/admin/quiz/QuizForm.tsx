@@ -91,19 +91,19 @@ export default function QuizForm({ technologies }: QuizFormProps) {
         </select>
       </div>
 
-      <hr className="my-8" />
+      <hr className="my-8 dark:border-slate-700"/>
 
       {/* Preguntas */}
       <div className="mb-4">
         {quiz.questions.map((question, index) => (
-          <details className="border-b border-b-slate-400 mb-4 last-of-type:border-none"  key={question.id} >
+          <details className="border-b border-b-slate-400 dark:border-slate-700 mb-4 last-of-type:border-none"  key={question.id} >
           <summary className="text-xl font-bold mb-4 cursor-pointer">Pregunta {index + 1}</summary>
           <div className="mb-4">
             <input
               type="text"
               name={`question-${index}`}
               id={`question-${index}`}
-              className="w-full p-2 border border-slate-400 rounded-md text-black"
+              className="p-2"
               defaultValue={question.questionText}
               onChange={(e) => {
                 const newQuestions = [...quiz.questions];
@@ -155,7 +155,6 @@ export default function QuizForm({ technologies }: QuizFormProps) {
                   Explicación de la respuesta correcta
                 </label>
                 <textarea
-                  className="w-full p-2 border border-slate-400 rounded-md text-black"
                   defaultValue={question.answerExplain}
                   onChange={(e) => question.answerExplain = e.target.value}
                 ></textarea>
@@ -168,7 +167,6 @@ export default function QuizForm({ technologies }: QuizFormProps) {
                 </label>
                 <textarea 
                   rows={5} 
-                  className="w-full p-2 border border-slate-400 rounded-md text-black" 
                   onChange={(e) => question.codeExample = e.target.value}
                   defaultValue={question.codeExample}>
                 </textarea>    

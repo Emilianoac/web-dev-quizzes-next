@@ -22,7 +22,7 @@ export default async function CreateQuizPage() {
       <BreadCrumb  
         sections={breadCrumb} 
       />
-      <h1 className="text-2xl text-slate-700 font-bold">Nuevo Quiz</h1>
+      <h1 className="text-2xl text-slate-700 dark:text-white font-bold">Nuevo Quiz</h1>
       <QuizForm technologies={technologies} />
     </div>
   )
