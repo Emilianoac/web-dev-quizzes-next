@@ -20,7 +20,7 @@ export default async function TechnologyPage() {
       <ul className="grid grid-cols-1 md:grid-cols-5 gap-2">
         {technologies.map((technology) => (
           <li
-           className="p-4 bg-white shadow-sm rounded-md flex flex-col items-center gap-2"
+           className="p-4 bg-white dark:bg-blue-gray shadow-sm rounded-md flex flex-col items-center gap-2"
            key={technology.id}>
             <Image 
               src={technology.icon} 

@@ -37,7 +37,11 @@ export default async function CategoriesPage() {
         <div className="app-tabla__body mt-2">
           {areas.map((area) => (
             <div 
-              className="app-tabla__row grid grid-cols-3 bg-white shadow-sm rounded-md p-4 gap-2" 
+              className="
+                app-tabla__row grid grid-cols-3 
+                bg-white 
+                dark:bg-blue-gray
+                shadow-sm rounded-md p-4 gap-2 mt-3" 
               key={area.id}>
                 <p>{area.name}</p>
                 <p>{area.technologies.length}</p>

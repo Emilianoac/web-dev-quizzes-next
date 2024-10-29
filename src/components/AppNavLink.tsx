@@ -14,7 +14,9 @@ export default function Navlink({link, title}: MenuItem) {
   return (
     <Link 
       href={link} 
-      className={ `${pathname == link ? "text-secondary-500 font-semibold" : "text-slate-700"}  py-2 block`}>
+      className={ 
+        `${pathname == link ? "text-secondary-500 font-semibold dark:text-primary-500" : "text-slate-700 dark:text-white"}  py-2 block`
+      }>
       {title}
     </Link>
   )

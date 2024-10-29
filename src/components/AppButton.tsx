@@ -16,7 +16,7 @@ export default function AppButton({ text, onClickAction, buttonType = "button", 
       <button 
         className={`
           ${className}
-          bg-primary-500 text-white font-bold
+          bg-primary-500 text-white font-semibold
           py-2 px-4 rounded-md
           hover:bg-primary-700
           transition-colors duration-300 ease-in-out`}
@@ -28,7 +28,7 @@ export default function AppButton({ text, onClickAction, buttonType = "button", 
       <Link
         className={`
           ${className}
-          bg-primary-500 text-white font-bold
+          bg-primary-500 text-white font-semibold
           py-2 px-4 rounded-md
           hover:bg-primary-700
           transition-colors duration-300 ease-in-out`}

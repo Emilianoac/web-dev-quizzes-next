@@ -16,7 +16,9 @@ export default function BreadCrumb({ sections }: BreadCrumbProps) {
       <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
         <>
           {sections.length > 0 && (
-            <Link href={sections[0].url} className="text-sm font-medium text-gray-700 hover:text-blue-600">
+            <Link 
+              href={sections[0].url} 
+              className="text-sm font-medium text-gray-700 dark:text-white hover:text-blue-600">
               {sections[0].name}
             </Link>
           )}

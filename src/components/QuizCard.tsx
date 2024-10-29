@@ -18,7 +18,8 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
     <article
       key={quiz.slug} 
       className="
-      bg-white text-slate-700 
+        bg-white text-slate-700 
+        dark:bg-blue-gray dark:text-slate-200
         text-center
         shadow-sm rounded-md  p-6 
         hover:shadow-lg 
@@ -32,7 +33,7 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
           loading="lazy"
         />
         <h2 className="font-bold text-[1.2em]">{quiz.title}</h2>
-        <p className="text-center text-slate-600 text-sm">{quiz.technology.area.name}</p>
+        <p className="text-center text-slate-600 dark:text-slate-500 text-sm">{quiz.technology.area.name}</p>
         {/* Controles */}
         <div className="flex justify-center items-center gap-2 mt-4">
           <AppButton
