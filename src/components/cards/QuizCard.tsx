@@ -11,6 +11,7 @@ interface QuizCardProps {
       icon: string,
       name: string
       area: string
+      slug: string
     }
     description: string
   }
@@ -22,16 +23,24 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
     <article
       key={quiz.slug} 
       className="app-card p-5">
-        <Link href={`/quiz/${quiz.slug}`}>
-          <div className="">
-            <Image 
-              src={quiz.technology.icon} 
-              width={40}
-              height={40}
-              alt={quiz.title} 
-              loading="lazy"
-            />
-            <div className="flex justify-start items-start flex-col w-full mt-4">
+        <Link href={`/tecnologia/${quiz.technology.slug}/quiz//${quiz.slug}`}>
+          <div>
+            <div className="
+              bg-slate-100
+              p-2 rounded-full
+              w-[55px] h-[55px] 
+              flex justify-center items-center
+            ">
+              <Image 
+                src={quiz.technology.icon} 
+                width={30}
+                height={30}
+                alt={quiz.title} 
+                loading="lazy"
+                className="h-[30px] w-[30px] object-scale-down"
+              />         
+            </div>
+            <div className="flex justify-start items-start flex-col w-full mt-2">
               <h2 className="font-bold text-[1.1em]">{quiz.title}</h2>
               <p className="text-center text-slate-600 dark:text-slate-400 text-sm">{quiz.technology.area}</p>
             </div>
