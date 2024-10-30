@@ -1,6 +1,6 @@
 
 import prisma from "@/lib/prisma";
-import QuizzCard from "@/components/QuizCard";
+import QuizzCard from "@/components/cards/QuizCard";
 import SectionsHeader from "@/components/admin/AdminSectionHeader";
 
 export default async function QuizzesPage() {
@@ -21,8 +21,17 @@ export default async function QuizzesPage() {
         buttonUrl="/admin/quizzes/crear"  
         buttonText="Añadir Quiz"
       />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-        { quizzes.map((quiz) => <QuizzCard key={quiz.id} quiz={quiz} admin={true} /> )}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        { quizzes.map((quiz) => <QuizzCard key={quiz.id} quiz={{
+          title: quiz.title,
+          description: quiz.description,
+          slug: quiz.slug,
+          technology: {
+            icon: quiz.technology.icon,
+            name: quiz.technology.name,
+            area: quiz.technology.area.name,
+          }
+        }} admin={true} /> )}
       </div>
     </div>
   );
