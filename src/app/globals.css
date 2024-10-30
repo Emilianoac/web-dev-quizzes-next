@@ -6,6 +6,7 @@
   --background: #F7F8FC;
 }
 
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -14,13 +15,27 @@ input[type="tel"],
 textarea,
 select {
   @apply 
-    text-black w-full rounded-md 
-    border border-slate-400
-    dark:text-white dark:bg-blue-gray dark:border-slate-700
-    focus-visible:border-blue-500 focus-visible:outline-none;
+  text-black w-full rounded-md 
+  border border-slate-400
+  dark:text-white dark:bg-blue-gray dark:border-slate-700
+  focus-visible:border-blue-500 focus-visible:outline-none;
 }
 
 .container {
   @apply mx-auto px-4;
   max-width: 1200px;
+}
+
+
+.app-card {
+  @apply 
+  bg-white text-slate-700 
+  dark:bg-blue-gray dark:text-slate-200
+  dark:hover:shadow-slate-950 
+  border border-transparent 
+  hover:border-slate-200
+  dark:hover:border-slate-800
+  text-center rounded-md
+  hover:shadow-lg 
+  transition-all ease-in-out duration-300;
 }
