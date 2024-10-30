@@ -44,7 +44,8 @@ export default async function TechnologyPage({ params }: Props) {
               technology: {
                 icon: technology.icon,
                 name: technology.name,
-                area: technology.area.name
+                area: technology.area.name,
+                slug: technology.slug
               }
             }} />
           ))

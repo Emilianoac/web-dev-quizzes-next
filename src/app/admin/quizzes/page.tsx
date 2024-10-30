@@ -30,6 +30,7 @@ export default async function QuizzesPage() {
             icon: quiz.technology.icon,
             name: quiz.technology.name,
             area: quiz.technology.area.name,
+            slug: quiz.technology.slug
           }
         }} admin={true} /> )}
       </div>
