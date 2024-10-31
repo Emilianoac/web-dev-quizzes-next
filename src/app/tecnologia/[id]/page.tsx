@@ -1,6 +1,7 @@
 
 import prisma from "@/lib/prisma";
 import QuizCard from "@/components/cards/QuizCard";
+import Image from "next/image";
 
 interface Props {
   params: {
@@ -30,11 +31,26 @@ export default async function TechnologyPage({ params }: Props) {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">
-        Quizzes 
-        <span className="inline-block ms-2 text-primary-500">{technology.name}</span> 
-      </h1>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 m">
+      <div className="block md:flex items-center gap-9 text-center md:text-start bg-white dark:bg-blue-gray p-5 rounded-lg">
+        <div className="flex items-center justify-center bg-slate-100 w-[160px] h-[160px] rounded-full flex-shrink-0 mx-auto md:mx-0">
+          <Image 
+            className="object-scale-down h-[80px] w-[80px]" 
+            src={technology.icon} 
+            alt={technology.name} 
+            width={100} 
+            height={100} 
+          />
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold mt-4">{technology.name}</h1>
+          <p className="text-slate-500 dark:text-slate-400 mt-4 max-w-[600px]">
+          Git es un sistema de control de versiones que ayuda a los desarrolladores a rastrear y gestionar cambios en el código. Facilita la colaboración, permite recuperar versiones anteriores y organiza el desarrollo de proyectos de forma segura y eficiente.            </p>
+        </div>
+      </div>
+      <div className="flex items-center gap-3 mb-5 mt-10">
+        <h2 className="text-xl font-bold">Quizzes</h2>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {
           technology?.quiz.map(q => (
             <QuizCard key={q.slug} quiz={{
