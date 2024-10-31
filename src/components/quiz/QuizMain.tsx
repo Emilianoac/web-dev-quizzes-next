@@ -1,0 +1,54 @@
+"use client";
+
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import QuizInit from "./QuizInit";
+import QuizOnGoing from "./QuizOngoing";
+import QuizResults from "./QuizResults";
+import type { Quiz, Technology, Question, Answer, Area} from "@prisma/client";
+
+interface QuizMainProps {
+  quiz: Quiz & {
+    technology: Technology & {
+      area: Area;
+    };
+    questions: (Question & {
+      answers: Answer[];
+    })[];
+  };
+}
+
+export default function QuizMain({ quiz }: QuizMainProps) {
+  const [start, setStart] = useState(false);
+  const [finish, setFinish] = useState({
+    status: false,
+    history: [] as string[],
+  });
+
+  const renderQuizContent = () => {
+    if (!start) {
+      return <QuizInit quiz={quiz} setStart={setStart} />;
+    }
+    if (finish.status) {
+      return <QuizResults history={finish.history} quiz={quiz} />;
+    }
+    return <QuizOnGoing quiz={quiz} setFinish={setFinish} />;
+  };
+  return (
+    <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })}>
+      <motion.div
+        key={start ? (finish.status ? "results" : "ongoing") : "init"}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 50 }}
+        transition={{ duration: 0.5 }}
+      >
+        {renderQuizContent()}
+      </motion.div>
+    </AnimatePresence>
+  );
+}

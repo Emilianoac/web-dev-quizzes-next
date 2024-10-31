@@ -1,0 +1,27 @@
+
+.quiz-option {
+  @apply flex items-center rounded-md w-full ps-2 mb-2 border border-transparent;
+  @apply hover:bg-slate-100 dark:hover:bg-slate-900;
+
+  .quiz-option-input {
+    @apply px-2 block;
+  }
+
+  .quiz-option-label {
+    @apply block text-sm md:text-base p-4 cursor-pointer w-full;
+  }
+}
+.quiz-option.selected-option {
+  @apply bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-800;
+}
+
+.quiz-option.wrong-option {
+  @apply bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-800;
+}
+
+
+.quiz-controls {
+  box-shadow: 0 -4px 4px 10px rgba(0, 0, 0, 0.111);
+  @apply flex justify-center md:justify-end px-6 py-3 md:p-6 sticky md:relative top-0 md:shadow-none;
+}
+
