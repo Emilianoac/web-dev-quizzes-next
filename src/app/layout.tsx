@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 import AppNavbar from "@/components/AppNavbar";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-background text-black dark:bg-slate-900 dark:text-white">
+        <NextTopLoader color="#ff3c9d"/>
         <ThemeProvider>
           <AppNavbar />
           <div className="container my-5">
