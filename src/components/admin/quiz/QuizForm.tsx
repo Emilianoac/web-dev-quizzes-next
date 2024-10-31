@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuiz } from "@/hooks/useQuizForm";
 import { addQuiz } from "@/lib/actions/quizActions";
+import { useRouter } from "next/navigation";
 import AppButton from "@/components/AppButton";
 import { type Technology } from "@prisma/client";
 
@@ -12,14 +13,24 @@ interface QuizFormProps {
 
 export default function QuizForm({ technologies }: QuizFormProps) {
 
+  const router = useRouter();
+
   const { createInitialQuestions, setCorrectAnswer } = useQuiz();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [quiz, setQuiz] = useState({
     title: "",
     description: "",
     technologyId: undefined as undefined | string,
-    questions: createInitialQuestions(2, 4)
+    questions: createInitialQuestions(5, 4)
   });
+
+  function setNumberOfQuestions(num: number) {
+    setQuiz((prev) => ({
+      ...prev,
+      questions: createInitialQuestions(num, 4)
+    }));
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,8 +42,12 @@ export default function QuizForm({ technologies }: QuizFormProps) {
     formData.append("questions", JSON.stringify(quiz.questions));
 
     try {
+      setIsLoading(true);
       await addQuiz(formData);
+
+      router.push("/admin/quizzes");
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   }
@@ -94,10 +109,26 @@ export default function QuizForm({ technologies }: QuizFormProps) {
       <hr className="my-8 dark:border-slate-700"/>
 
       {/* Preguntas */}
+
+      <div className="mb-4 flex flex-col items-end">
+        <span className="" >Preguntas</span>
+        <label htmlFor="num-questions" className="block text-sm font-bold mb-2">Cantidad de preguntas</label>
+        <select
+          name="num-questions"
+          id="num-questions"
+          className="p-2 w-min"
+          onChange={(e) => setNumberOfQuestions(+e.target.value)}>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+
       <div className="mb-4">
         {quiz.questions.map((question, index) => (
           <details className="border-b border-b-slate-400 dark:border-slate-700 mb-4 last-of-type:border-none"  key={question.id} >
-          <summary className="text-xl font-bold mb-4 cursor-pointer">Pregunta {index + 1}</summary>
+          <summary className="text-[1.1em] font-bold mb-4 cursor-pointer">Pregunta {index + 1}</summary>
           <div className="mb-4">
             <input
               type="text"
