@@ -1,7 +1,14 @@
 import AppNavlink from "@/components/AppNavLink";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import {redirect } from "next/navigation";
 
-export default function AmdminLayout({ children }: Readonly<{ children: React.ReactNode}>) {
+export default async function AmdminLayout({ children }: Readonly<{ children: React.ReactNode}>) {
+  const session = await getServerSession(authOptions);
 
+  if (!session || !session.user?.roles?.includes("admin")) {
+    redirect("/");
+  }
   const memuItems = [
     { title: "Quizzes", link: "/admin/quizzes" },
     { title: "Tecnologías", link: "/admin/tecnologias" },
