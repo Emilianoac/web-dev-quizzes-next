@@ -3,7 +3,7 @@ import Link from "next/link";
 import AppLogo from "./AppLogo";
 import AppDarkModeToggle from "./AppDarkModeToggle";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 import UserDropdown from "./UserDropdown";
 
 export default async function AppNavbar() {

@@ -1,6 +1,6 @@
 import AppNavlink from "@/components/AppNavLink";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/utils/authOptions";
 import {redirect } from "next/navigation";
 
 export default async function AmdminLayout({ children }: Readonly<{ children: React.ReactNode}>) {
