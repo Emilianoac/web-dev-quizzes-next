@@ -62,7 +62,7 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
         { admin && 
           <div className="flex justify-end items-center gap-2 mt-4 w-full">
             <AppButton
-              className="text-xs bg-blue-500 hover:bg-blue-600 text-white"
+              className="text-xs !bg-blue-500 hover:!bg-blue-600 text-white"
               text="Editar Quiz"
               buttonType="link"
               url={`/admin/quizzes/editar/${quiz.slug}`}
