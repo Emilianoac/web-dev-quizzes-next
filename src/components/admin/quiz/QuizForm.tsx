@@ -2,17 +2,23 @@
 
 import { useState } from "react";
 import { useQuiz } from "@/hooks/useQuizForm";
-import { addQuiz } from "@/lib/actions/quizActions";
+import { addQuiz, updateQuiz} from "@/lib/actions/quizActions";
 import { useRouter } from "next/navigation";
 import AppButton from "@/components/AppButton";
 import AppLoader from "@/components/AppLoader";
-import { type Technology } from "@prisma/client";
+import { type Technology, Quiz, Question, Answer} from "@prisma/client";
 
 interface QuizFormProps {
   technologies: Technology[];
+  quizData?: Quiz &{
+    technology: Technology;
+    questions: (Question & {
+      answers: Answer[];
+    })[];
+  }
 }
 
-export default function QuizForm({ technologies }: QuizFormProps) {
+export default function QuizForm({ technologies, quizData }: QuizFormProps) {
 
   const router = useRouter();
 
@@ -20,10 +26,11 @@ export default function QuizForm({ technologies }: QuizFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [quiz, setQuiz] = useState({
-    title: "",
-    description: "",
-    technologyId: undefined as undefined | string,
-    questions: createInitialQuestions(5, 4)
+    title: quizData?.title || "",
+    description: quizData?.description || "",
+    level: quizData?.level || "",
+    technologyId: quizData?.technologyId || "",
+    questions: createInitialQuestions(quizData?.questions.length ?? 5, 4, quizData?.questions)
   });
 
   function setNumberOfQuestions(num: number) {
@@ -41,11 +48,17 @@ export default function QuizForm({ technologies }: QuizFormProps) {
     formData.append("description", quiz.description);
     formData.append("technologyId", quiz.technologyId as string);
     formData.append("questions", JSON.stringify(quiz.questions));
+    formData.append("level", quiz.level);
 
     try {
       setIsLoading(true);
-      await addQuiz(formData);
 
+      if (quizData) {
+        formData.append("id", quizData.id);
+        await updateQuiz(formData);
+      } else {
+        await addQuiz(formData);  
+      }
       router.push("/admin/quizzes");
     } catch (error) {
       setIsLoading(false);
@@ -72,6 +85,24 @@ export default function QuizForm({ technologies }: QuizFormProps) {
           />
         </div>
 
+        {/* Nivel */ }
+        <div className="mb-4">
+          <label htmlFor="level" className="block text-sm font-bold mb-2">
+            Nivel
+          </label>
+          <select
+            name="level"
+            id="level"
+            className="p-2"
+            defaultValue={quiz.level}
+            onChange={(e) => quiz.level = e.target.value}
+          >
+            <option value="basico">Básico</option>
+            <option value="intermedio">Intermedio</option>
+            <option value="avanzado">Avanzado</option>
+          </select>
+        </div>
+
         {/* Descripción */}
         <div className="mb-4">
           <label htmlFor="description" className="block text-sm font-bold mb-2">
@@ -94,7 +125,8 @@ export default function QuizForm({ technologies }: QuizFormProps) {
           <select
             name="technology"
             id="technology"
-            className="p-2"
+            className="p-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={quizData ? true : false}
             defaultValue={quiz.technologyId}
             onChange={(e) => {
               setQuiz((prev) => ({ ...prev, technologyId: e.target.value }));
@@ -112,14 +144,13 @@ export default function QuizForm({ technologies }: QuizFormProps) {
         <hr className="my-8 dark:border-slate-700"/>
 
         {/* Preguntas */}
-
         <div className="mb-4 flex flex-col items-end">
-          <span className="" >Preguntas</span>
           <label htmlFor="num-questions" className="block text-sm font-bold mb-2">Cantidad de preguntas</label>
           <select
             name="num-questions"
             id="num-questions"
-            className="p-2 w-min"
+            disabled={quizData ? true : false}
+            className="p-2 w-min disabled:opacity-50 disabled:cursor-not-allowed"
             onChange={(e) => setNumberOfQuestions(+e.target.value)}>
             <option value="5">5</option>
             <option value="10">10</option>
@@ -130,7 +161,9 @@ export default function QuizForm({ technologies }: QuizFormProps) {
 
         <div className="mb-4">
           {quiz.questions.map((question, index) => (
-            <details className="border-b border-b-slate-400 dark:border-slate-700 mb-4 last-of-type:border-none"  key={question.id} >
+            <details 
+              className="border-b border-b-slate-400 dark:border-slate-700 mb-4 last-of-type:border-none"  
+              key={question.id} >
             <summary className="text-[1.1em] font-bold mb-4 cursor-pointer">Pregunta {index + 1}</summary>
             <div className="mb-4">
               <input
