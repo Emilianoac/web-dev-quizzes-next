@@ -36,12 +36,19 @@ model Quiz {
   id              String          @id @default(uuid())
   title           String          @unique
   slug            String          @unique
+  level           String          @default("basico")
   description     String          @default("")
   createdAt       DateTime        @default(now())
   technologyId    String
 
   technology      Technology      @relation(fields: [technologyId], references: [id], onDelete: Cascade)
   questions       Question[]     
+}
+
+enum Level {
+  basico
+  intermedio
+  avanzado
 }
 
 model Question {

@@ -58,6 +58,7 @@ export default async function TechnologyPage({ params }: Props) {
               title: q.title,
               slug: q.slug,
               description: q.description,
+              level: q.level,
               technology: {
                 icon: technology.icon,
                 name: technology.name,
