@@ -83,7 +83,7 @@ export default function QuizForm({ technologies }: QuizFormProps) {
             className="p-2"
             defaultValue={quiz.description}
             onChange={(e) => {
-              setQuiz((prev) => ({ ...prev, title: e.target.value }));
+              setQuiz((prev) => ({ ...prev, description: e.target.value }));
             }}
           ></textarea>
         </div>
