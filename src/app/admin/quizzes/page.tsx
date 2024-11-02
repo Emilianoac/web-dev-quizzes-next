@@ -8,7 +8,12 @@ export default async function QuizzesPage() {
     include: {
       technology: {
         include: {
-          area: true 
+          area: true,
+          quiz: {
+            include: {
+              questions: true
+            }
+          }
         }
       }
     }
@@ -26,6 +31,7 @@ export default async function QuizzesPage() {
           title: quiz.title,
           description: quiz.description,
           slug: quiz.slug,
+          level: quiz.level,
           technology: {
             icon: quiz.technology.icon,
             name: quiz.technology.name,
