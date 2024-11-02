@@ -27,7 +27,7 @@ model Technology {
   icon            String    
   iconName        String       
   areaId          String          // Foreign key
-  area            Area            @relation(fields: [areaId], references: [id]) // Relationship many-to-one with Area
+  area            Area            @relation(fields: [areaId], references: [id], onDelete: Cascade) // Relationship many-to-one with Area
   quiz            Quiz[]          // Relationship one-to-many with Quiz
 }
 
@@ -38,27 +38,30 @@ model Quiz {
   description     String          @default("")
   createdAt       DateTime        @default(now())
   technologyId    String
-  technology      Technology      @relation(fields: [technologyId], references: [id])
-  questions       Question[]      
+
+  technology      Technology      @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  questions       Question[]     
 }
 
 model Question {
   id              String         @id @default(uuid())
   quizId          String
-  quiz            Quiz           @relation(fields: [quizId], references: [id])
+  quiz            Quiz           @relation(fields: [quizId], references: [id], onDelete: Cascade)
   questionText    String
   createdAt       DateTime       @default(now())
-  answers         Answer[]    
   answerExplain   String      
-  codeExample     String?      
+  codeExample     String?    
+
+  answers         Answer[]       
 }
 
 model Answer {
   id             String         @id @default(uuid())
   questionId     String
-  question       Question       @relation(fields: [questionId], references: [id])
   answerText     String
   isCorrect      Boolean  
+
+  question       Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
 
 
