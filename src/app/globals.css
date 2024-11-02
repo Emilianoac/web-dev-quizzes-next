@@ -15,6 +15,7 @@ input[type="tel"],
 textarea,
 select {
   @apply 
+  p-2
   text-black w-full rounded-md 
   border border-slate-400
   dark:text-white dark:bg-blue-gray dark:border-slate-700
