@@ -43,8 +43,9 @@ export default async function TechnologyPage({ params }: Props) {
         </div>
         <div>
           <h1 className="text-3xl font-bold mt-4">{technology.name}</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-4 max-w-[600px]">
-          Git es un sistema de control de versiones que ayuda a los desarrolladores a rastrear y gestionar cambios en el código. Facilita la colaboración, permite recuperar versiones anteriores y organiza el desarrollo de proyectos de forma segura y eficiente.            </p>
+          <p className="text-slate-500 dark:text-slate-400 mt-4 max-w-[700px]">
+            {technology.description ?? ""}
+          </p>
         </div>
       </div>
       <div className="flex items-center gap-3 mb-5 mt-10">

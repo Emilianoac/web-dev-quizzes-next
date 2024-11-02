@@ -14,6 +14,7 @@ export async function addTechnology(data: FormData) {
 
   const name = data.get("name") as string;
   const area = data.get("area") as string;
+  const description = data.get("description") as string;
   const slug = slugify(name, { strict: true, lower: true });
   const iconFile = data.get("icon") as Blob;
   
@@ -27,6 +28,7 @@ export async function addTechnology(data: FormData) {
         areaId: area ,  
         icon: icon.url,
         iconName: icon.name,
+        description: description,
         slug: slug  
       } 
     });

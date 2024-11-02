@@ -24,6 +24,7 @@ model Technology {
   id              String          @id @default(uuid())
   name            String          @unique
   slug            String          @unique
+  description     String          @default("")
   icon            String    
   iconName        String       
   areaId          String          // Foreign key

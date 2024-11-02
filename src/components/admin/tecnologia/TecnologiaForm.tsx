@@ -14,6 +14,7 @@ interface TechnologyForm {
 export default function TecnologiaForm({ areas }: TechnologyForm) {
   const [form, setForm] = useState({
     name: "",
+    description: "",
     area: "",
     icon: undefined as undefined | File,
   });
@@ -28,6 +29,7 @@ export default function TecnologiaForm({ areas }: TechnologyForm) {
     data.append("name", form.name);
     data.append("area", form.area);
     data.append("icon", form.icon!);
+    data.append("description", form.description);
 
     try {
       await addTechnology(data);
@@ -41,6 +43,8 @@ export default function TecnologiaForm({ areas }: TechnologyForm) {
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e)} >
+
+        {/* Nombre */}
         <div className="mb-4">
           <label htmlFor="title" className="block text-sm font-bold mb-2">
             Nombre
@@ -53,17 +57,32 @@ export default function TecnologiaForm({ areas }: TechnologyForm) {
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
         </div>
+
+        {/* Descripción */}
         <div className="mb-4">
-          <label htmlFor="category" className="block text-sm font-bold mb-2">
-            Categoría
+          <label htmlFor="description" className="block text-sm font-bold mb-2">
+            Descripción
+          </label>
+          <textarea
+            name="description"
+            id="description"
+            className="p-2"
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+          ></textarea>
+        </div>
+
+        {/* area */}
+        <div className="mb-4">
+          <label htmlFor="area" className="block text-sm font-bold mb-2">
+            Area
           </label>
           <select
-            name="category"
-            id="category"
+            name="area"
+            id="area"
             className="p-2"
             onChange={(e) => setForm({ ...form, area: e.target.value })}
           >
-            <option value="" disabled selected>Selecciona una categoría</option>
+            <option value="" disabled selected>Selecciona un area</option>
             {areas.map((area) => (
               <option key={area.id} value={area.id}>
                 {area.name}
@@ -71,6 +90,8 @@ export default function TecnologiaForm({ areas }: TechnologyForm) {
             ))}
           </select>
         </div>
+
+        {/* Icono */}
         <div className="mb-4">
           <label htmlFor="icon" className="block text-sm font-bold mb-2">
             Icono
@@ -83,6 +104,8 @@ export default function TecnologiaForm({ areas }: TechnologyForm) {
             onInput={(e) => setForm({ ...form, icon: (e.target as HTMLInputElement).files?.[0] })}
           />
         </div>
+
+        {/* Botones */}
         <div className="flex justify-end gap-2">
           <AppButton
             buttonType="link"
