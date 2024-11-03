@@ -1,5 +1,5 @@
 import TechnologiesGrid from "@/components/home/TechnologiesGrid";
-import prisma  from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export default async function Home() {
   const areas = await prisma.area.findMany({
@@ -7,13 +7,22 @@ export default async function Home() {
       technologies: {
         some: {
           quiz: {
-            some: { isPublic: true }
+            some: { 
+              isPublic: true
+            }
           }
         }
       }
     },
     include: {
       technologies: {
+        where: {
+          quiz: {
+            some: {
+              isPublic: true
+            }
+          }
+        },
         include: {
           quiz: {
             where: {
@@ -24,7 +33,6 @@ export default async function Home() {
       }
     }
   });
-  
 
   return (
     <TechnologiesGrid areas={areas} />
