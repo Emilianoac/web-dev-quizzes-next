@@ -51,6 +51,7 @@ export async function addQuiz(data: FormData) {
 
 export async function updateQuiz(data: FormData) {
   const title = data.get("title") as string;
+  const isPublic = data.get("isPublic") === "true" ? true : false;
   const id = data.get("id") as string;
   const description = data.get("description") as string;
   const level = data.get("level") as string;
@@ -66,6 +67,7 @@ export async function updateQuiz(data: FormData) {
         title,
         description,
         level,
+        isPublic,
         technology: {
           connect: {id: technologyId}
         },

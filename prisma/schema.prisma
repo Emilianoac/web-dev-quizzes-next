@@ -37,6 +37,7 @@ model Quiz {
   title           String          @unique
   slug            String          @unique
   level           String          @default("basico")
+  isPublic        Boolean         @default(false)
   description     String          @default("")
   createdAt       DateTime        @default(now())
   technologyId    String

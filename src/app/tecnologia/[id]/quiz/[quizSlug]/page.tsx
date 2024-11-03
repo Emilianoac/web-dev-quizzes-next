@@ -1,6 +1,7 @@
 
 import QuizMain from "@/components/quiz/QuizMain";
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 interface QuizPageProps {
   params: {
@@ -13,6 +14,7 @@ export default async function QuizzPage({ params }: QuizPageProps) {
   const quiz = await prisma.quiz.findUnique({
     where: {
       slug: params.quizSlug,
+      isPublic: true
     },
     include: {
       technology: {
@@ -28,7 +30,7 @@ export default async function QuizzPage({ params }: QuizPageProps) {
     }
   })
 
-  if (!quiz) return <div>Quiz no encontrado</div>
+  if (!quiz) redirect("/");
   
 
   return (

@@ -26,6 +26,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [quiz, setQuiz] = useState({
+    isPublic: quizData?.isPublic ? true : false,
     title: quizData?.title || "",
     description: quizData?.description || "",
     level: quizData?.level || "",
@@ -45,6 +46,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
 
     const formData = new FormData();
     formData.append("title", quiz.title);
+    formData.append("isPublic", String(quiz.isPublic));
     formData.append("description", quiz.description);
     formData.append("technologyId", quiz.technologyId as string);
     formData.append("questions", JSON.stringify(quiz.questions));
@@ -70,6 +72,20 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
     <>
       <AppLoader isLoading={isLoading} />
       <form onSubmit={(e) => handleSubmit(e)} className="mt-4">
+        {/*  Es público */ }
+        <div className="flex mb-4 items-center justify-end gap-2">
+          <label htmlFor="isPublic" className="block text-sm font-bold">
+            Es público
+          </label>
+          <input
+            type="checkbox"
+            name="isPublic"
+            id="isPublic"
+            defaultChecked={quiz.isPublic}
+            onChange={(e) => quiz.isPublic = e.target.checked}
+          />
+        </div>
+
         {/*  Nombre */ }
         <div className="mb-4">
           <label htmlFor="title" className="block text-sm font-bold mb-2">

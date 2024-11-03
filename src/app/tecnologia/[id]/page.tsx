@@ -2,6 +2,7 @@
 import prisma from "@/lib/prisma";
 import QuizCard from "@/components/cards/QuizCard";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: {
@@ -16,6 +17,7 @@ export default async function TechnologyPage({ params }: Props) {
     include: {
       area: true,
       quiz: {
+        where: { isPublic: true },
         include: {
           questions: {
             include: {
@@ -27,7 +29,7 @@ export default async function TechnologyPage({ params }: Props) {
     }
   })
 
-  if (!technology) return <div>Tecnología no encontrada.</div>
+  if (!technology) redirect("/");
 
   return (
     <div>
@@ -48,27 +50,35 @@ export default async function TechnologyPage({ params }: Props) {
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-3 mb-5 mt-10">
-        <h2 className="text-xl font-bold">Quizzes</h2>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        {
-          technology?.quiz.map(q => (
-            <QuizCard key={q.slug} quiz={{
-              title: q.title,
-              slug: q.slug,
-              description: q.description,
-              level: q.level,
-              technology: {
-                icon: technology.icon,
-                name: technology.name,
-                area: technology.area.name,
-                slug: technology.slug
-              }
-            }} />
-          ))
-        }
-      </div>
+
+      { technology.quiz.length > 0 ?
+        <>
+          <h2 className="text-xl font-bold mt-10">Quizzes</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+            {
+              technology?.quiz.map(q => (
+                <QuizCard key={q.slug} quiz={{
+                  title: q.title,
+                  slug: q.slug,
+                  description: q.description,
+                  level: q.level,
+                  technology: {
+                    icon: technology.icon,
+                    name: technology.name,
+                    area: technology.area.name,
+                    slug: technology.slug
+                  }
+                }} />
+              ))
+            }
+          </div>
+        </>:
+        <div className="text-center mt-10">
+          <p className="font-bold text-xl dark:text-slate-700 text-slate-400">
+            No hay quizzes disponibles para esta tecnología.
+          </p>
+        </div>
+      }
     </div>
   )
 }

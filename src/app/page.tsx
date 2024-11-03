@@ -7,7 +7,7 @@ export default async function Home() {
       technologies: {
         some: {
           quiz: {
-            some: {}
+            some: { isPublic: true }
           }
         }
       }
@@ -15,7 +15,11 @@ export default async function Home() {
     include: {
       technologies: {
         include: {
-          quiz: true
+          quiz: {
+            where: {
+              isPublic: true
+            }
+          }
         }
       }
     }
