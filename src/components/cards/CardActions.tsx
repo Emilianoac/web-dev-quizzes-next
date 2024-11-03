@@ -2,7 +2,6 @@
 "use client";
 
 import { useState } from "react";
-import { createPortal } from "react-dom";
 import { deleteTechnology } from "@/lib/actions/tecnologiaActions";
 import { deleteQuiz } from "@/lib/actions/quizActions";
 import AppButton from "../AppButton";
@@ -66,12 +65,7 @@ export default function TechCardActions({
           <FaTrashAlt/>
         </AppButton >
       </div>
-      {
-        createPortal(
-          <AppLoader isLoading={isDeleting} />,
-          document.body
-        )
-      }
+      { isDeleting && <AppLoader isLoading={isDeleting} /> }
     </>
   )
 }
