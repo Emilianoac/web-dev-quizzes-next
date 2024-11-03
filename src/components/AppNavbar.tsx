@@ -13,11 +13,11 @@ export default async function AppNavbar() {
     <nav className="
       bg-white 
       dark:bg-slate-900 dark:shadow-lg
-      w-full p-4 shadow-sm sticky top-0 z-[999]">
+      w-full py-4 shadow-sm sticky top-0 z-[999]">
       <div className="container">
         <div className="flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold">
-            <AppLogo />
+          <Link href="/">
+            <AppLogo className="w-[140px]  md:w-[200px]"/>
           </Link>
           <div className="flex gap-3">
             <AppDarkModeToggle />    

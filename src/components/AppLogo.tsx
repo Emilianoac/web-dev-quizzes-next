@@ -1,6 +1,10 @@
-export default function AppLogo() {
+
+type AppLogoProps = React.SVGProps<SVGSVGElement>
+
+export default function AppLogo({className}: AppLogoProps) {
   return (
     <svg
+      className={className || ""}
       width="200"
       height="26"
       viewBox="0 0 218 26"
