@@ -53,7 +53,7 @@ export default async function TechnologyPage({ params }: Props) {
 
       { technology.quiz.length > 0 ?
         <>
-          <h2 className="text-xl font-bold mt-10">Quizzes</h2>
+          <h2 className="text-xl font-bold mt-10 mb-4">Quizzes</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
             {
               technology?.quiz.map(q => (
