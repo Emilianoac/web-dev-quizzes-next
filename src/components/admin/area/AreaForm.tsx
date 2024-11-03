@@ -6,6 +6,7 @@ import { addArea, editArea, deleteArea } from "@/lib/actions/areaActions";
 import { useRouter } from "next/navigation";
 import { areaSchema, type AreaErrorSchema, type AreaSchema } from "@/schemas/areaSchema";
 import AppButton from "@/components/AppButton";
+import AppLinkButton from "@/components/AppLinkButton";
 import AppLoader from "@/components/AppLoader";
 import AppAlert from "@/components/AppAlert";
 
@@ -91,11 +92,11 @@ export default function AreaForm({ area }: AreaFormProps) {
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-3xl font-bold mb-5">Editar Area</h1>
           <AppButton  
-            buttonType="button" 
             className="bg-red-500 hover:bg-red-700 text-sm"
-            text="Eliminar Area"
-            onClickAction={() => handleDelete()}
-          /> 
+            onClick={() => handleDelete()}
+          >
+            Eliminar Area
+          </AppButton> 
         </div>
         }
         <div className="mb-4">
@@ -118,16 +119,17 @@ export default function AreaForm({ area }: AreaFormProps) {
           }
         </div>
         <div className="flex justify-end gap-3">
-          <AppButton
-            buttonType="link"
-            className="bg-slate-500 hover:bg-slate-700"
-            text="Cancelar"
-            url="/admin/areas"
-          />
-          <AppButton
-            buttonType="button"
-            text={area ? "Editar Area" : "Añadir Area"}
-          />
+          <AppLinkButton
+            className="bg-slate-500 hover:bg-slate-700 text-sm md:text-base"
+            href="/admin/areas"
+          >
+            Cancelar
+          </AppLinkButton>
+          <AppButton 
+            className="text-sm md:text-base"
+            type="submit">
+            {area ? "Editar Area" : "Añadir Area"}
+          </AppButton>
         </div>
       </form>
       <AppLoader isLoading={isLoading}/>

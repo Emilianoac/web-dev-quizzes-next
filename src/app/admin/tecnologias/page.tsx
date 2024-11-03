@@ -26,7 +26,9 @@ export default async function TechnologyPage() {
             area: technology.area.name,
             slug: technology.slug,
             quizzes: technology.quiz.length
-          }} />
+          }} 
+          admin={true}
+          />
         ))}
       </ul>
     </div>

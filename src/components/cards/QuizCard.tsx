@@ -1,8 +1,8 @@
 
 import Image from "next/image";
-import AppButton from "../AppButton";
 import Link from "next/link";
 import QuizLevelBadge from "./QuizLevelBadge";
+import CardActions from "./CardActions";
 
 interface QuizCardProps {
   quiz: {
@@ -26,8 +26,8 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
   return (
     <article
       key={quiz.slug} 
-      className="app-card p-4">
-        <Link href={`/tecnologia/${quiz.technology.slug}/quiz//${quiz.slug}`}>
+      className="app-card">
+        <Link className="p-4 block" href={`/tecnologia/${quiz.technology.slug}/quiz//${quiz.slug}`}>
           <div>
             <div className="flex justify-between items-start">
               {/* Icono */}
@@ -52,7 +52,7 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
 
             <div className="flex justify-start items-start flex-col w-full mt-2">
               {/* Titulo */}
-              <h2 className="font-bold text-[1.2em]">{quiz.title}</h2>
+              <h2 className="font-bold text-[1.1em]">{quiz.title}</h2>
               {/* Area */}
               <p className="text-center text-slate-600 dark:text-slate-400 text-sm">{quiz.technology.area}</p>
             </div>
@@ -60,14 +60,12 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
         </Link>
         {/* Controles */}
         { admin && 
-          <div className="flex justify-end items-center gap-2 mt-4 w-full">
-            <AppButton
-              className="text-xs !bg-blue-500 hover:!bg-blue-600 text-white"
-              text="Editar Quiz"
-              buttonType="link"
-              url={`/admin/quizzes/editar/${quiz.slug}`}
-            />
-          </div>
+         <CardActions
+            className="p-4"
+            cardType="quizzes"
+            itemId={quiz.slug}
+            itemSlug={quiz.slug}
+          />
         }
    </article>
   )

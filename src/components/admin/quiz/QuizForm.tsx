@@ -5,6 +5,7 @@ import { useQuiz } from "@/hooks/useQuizForm";
 import { addQuiz, updateQuiz} from "@/lib/actions/quizActions";
 import { useRouter } from "next/navigation";
 import AppButton from "@/components/AppButton";
+import AppLinkButton from "@/components/AppLinkButton";
 import AppLoader from "@/components/AppLoader";
 import { type Technology, Quiz, Question, Answer} from "@prisma/client";
 
@@ -260,11 +261,17 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
           ))}
         </div>
 
-        <div className="flex justify-end">
-          <AppButton
-            text="Crear Quiz"
-            buttonType="button"
-          />
+        <div className="flex justify-end gap-3">
+          <AppLinkButton 
+            href="/admin/quizzes" 
+            className="bg-slate-500 hover:bg-slate-700 text-sm md:text-base">
+            Cancelar
+          </AppLinkButton>
+          <AppButton 
+            className="text-sm md:text-base"
+            type="submit">
+            {quizData ? "Editar Quiz" : "Crear Quiz"}
+          </AppButton>
         </div>
       </form>
     </>

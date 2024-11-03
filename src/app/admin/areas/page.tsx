@@ -1,6 +1,7 @@
 import SectionsHeader from "@/components/admin/AdminSectionHeader";
-import AppButton from "@/components/AppButton";
+import AppLinkButton from "@/components/AppLinkButton";
 import prisma from "@/lib/prisma";
+import { FaEdit } from "react-icons/fa";
 
 export default async function CategoriesPage() {
   const areas = await prisma.area.findMany({
@@ -60,12 +61,12 @@ export default async function CategoriesPage() {
                   {area.technologies.reduce((acc, tech) => acc + tech.quiz.length, 0)}
                 </p>
                 <div className="flex gap-3 justify-end md:justify-start">
-                  <AppButton
-                    text="Editar"
+                  <AppLinkButton
                     className="text-xs !bg-blue-500 hover:bg-blue-700"
-                    buttonType="link"
-                    url={`/admin/areas/editar/${area.slug}`}
-                  />
+                    href={`/admin/areas/editar/${area.slug}`}
+                  >
+                    <FaEdit title="Editar"/>
+                  </AppLinkButton>
                 </div>
             </div>
           ))}

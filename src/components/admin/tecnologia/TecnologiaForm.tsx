@@ -6,6 +6,7 @@ import { Area, Technology } from "@prisma/client";
 import { addTechnology, updateTechnology } from "@/lib/actions/tecnologiaActions";
 import { useRouter } from "next/navigation";
 import AppButton from "@/components/AppButton";
+import AppLinkButton from "@/components/AppLinkButton";
 import AppLoader from "@/components/AppLoader";
 
 interface TechnologyForm {
@@ -169,17 +170,19 @@ export default function TecnologiaForm({ areas, technologyData }: TechnologyForm
 
 
         {/* Botones */}
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-3 mt-4">
+          <AppLinkButton
+            className="bg-slate-500 hover:bg-slate-700 text-sm md:text-base"
+            href="/admin/tecnologias"
+          >
+            Cancelar
+          </AppLinkButton>
           <AppButton
-            buttonType="link"
-            text="Cancelar"
-            className="bg-slate-500 hover:bg-slate-700"
-            url="/admin/tecnologias"
-          />
-          <AppButton
-            buttonType="button"
-            text={technologyData ? "Actualizar" : "Añadir"}
-          />
+            className="text-sm md:text-base"
+            type="submit"
+          >
+            {technologyData ? "Editar Tecnología" : "Añadir Tecnología"}
+          </AppButton>
         </div>
       </form>
       <AppLoader isLoading={isLoading}/>

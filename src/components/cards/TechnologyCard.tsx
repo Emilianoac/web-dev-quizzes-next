@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import AppButton from "../AppButton";
+import TechCardActions from "./CardActions";
 
 interface CardProps {
   data: {
@@ -14,7 +14,7 @@ interface CardProps {
   admin?: boolean
 }
 
-export default function QuizCard({ data }: CardProps) {
+export default function QuizCard({ data, admin }: CardProps) {
   return (
     <article
       key={data.slug} 
@@ -42,14 +42,14 @@ export default function QuizCard({ data }: CardProps) {
             {data.quizzes === 1 ? ' Quiz' : ' Quizzes'}
           </p>
         </Link>
-        <div className="flex justify-end gap-2 p-4">
-          <AppButton
-            buttonType="link"
-            className="bg-blue-500 hover:bg-blue-600 text-sm"
-            text="Editar"
-            url={`/admin/tecnologias/editar/${data.slug}`}
+        { admin &&
+          <TechCardActions
+            className="p-4 justify-center"
+            cardType="tecnologias"
+            itemId={data.slug}
+            itemSlug={data.slug}
           />
-        </div>
+        }
    </article>
   )
 }

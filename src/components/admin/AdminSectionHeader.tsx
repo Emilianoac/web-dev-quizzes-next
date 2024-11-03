@@ -1,4 +1,4 @@
-import PrimaryButton from "@/components/AppButton";
+import AppLinkButton from "../AppLinkButton";
 
 interface Props {
   title: string;
@@ -16,12 +16,13 @@ export default function SectionsHeader({ title, buttonUrl, buttonText }: Props) 
       ">
         {title}
     </h1>
-    <PrimaryButton 
-      buttonType="link" 
-      url={buttonUrl}
-      text={buttonText}
+    <AppLinkButton
+      href={buttonUrl}
       className="text-sm"
-    />
+    >
+      {buttonText}
+    </AppLinkButton>
+
   </div>
   )
 }

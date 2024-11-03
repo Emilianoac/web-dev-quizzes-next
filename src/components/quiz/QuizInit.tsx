@@ -30,14 +30,14 @@ export default function QuizInit({ quiz, setStart }: QuizInitProps) {
           height={80} 
         />
       </div>
-      <p className="text-xl text-center mt-6">{quiz.technology.name}</p>
-      <h1 className="text-2xl mdtext-3xl font-bold text-center mt-2">{quiz.title}</h1>
+      <p className=" text-base md:text-xl text-center mt-6">{quiz.technology.name}</p>
+      <h1 className="text-xl md:text-2xl font-bold text-center mt-2">{quiz.title}</h1>
       <AppButton
-        className="mt-6"
-        buttonType="button"
-        text="Comenzar Quiz"
-        onClickAction={() => setStart(true)}
-      />
+        className="mt-6 text-sm: md:text-base"
+        onClick={() => setStart(true)}
+      >
+        Comenzar Quiz
+      </AppButton>
     </div>
   </div>
   )

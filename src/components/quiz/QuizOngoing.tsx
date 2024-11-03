@@ -155,10 +155,12 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
         <div className={styles["quiz-controls"]}>
           <AppButton
             disabled={selectedAnswer === null || progressPercentage === 100}
-            text="Siguiente pregunta"
             className="text-sm md:text-base"
-            onClickAction={() => handleNextQuestion()}
-          />
+            onClick={() => handleNextQuestion()}
+          >
+            Siguiente pregunta
+          </AppButton>
+            
         </div>
       </div>
     </>
