@@ -18,7 +18,7 @@ export default async function TechnologyPage() {
         buttonText="Añadir tecnología"
         buttonUrl="/admin/tecnologias/crear"
       />
-      <ul className="grid grid-cols-1 md:grid-cols-5 gap-2">
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {technologies.map((technology) => (
           <TechnologyCard key={technology.id} data={{
             title: technology.name,

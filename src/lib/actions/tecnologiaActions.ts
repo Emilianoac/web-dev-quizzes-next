@@ -43,3 +43,50 @@ export async function addTechnology(data: FormData) {
 
   revalidatePath("/admin/tecnologias");
 };
+
+export async function updateTechnology(data: FormData) {
+  const id = data.get("id") as string;
+  const name = data.get("name") as string;
+  const slug = slugify(name, { strict: true, lower: true });
+  const area = data.get("area") as string;
+  const description = data.get("description") as string;
+  const iconFile = data.get("icon") as Blob | string;
+
+  try {
+    if (iconFile instanceof Blob) {
+      const storageService = new FirebaseStorageService();
+      const icon = await storageService.uploadFile({ file: iconFile, basepath: "technologies", name: id });
+  
+      await prisma.technology.update({
+        where: { id: id },
+        data: {
+          name: name,
+          slug: slug,
+          areaId: area,
+          icon: icon.url,
+          iconName: icon.name,
+          description: description
+        }
+      });
+    } else {
+
+      await prisma.technology.update({
+        where: { id: id },
+        data: {
+          name: name,
+          slug: slug,
+          areaId: area,
+          description: description
+        }
+      });
+    }
+
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error al actualizar la tecnología, intente nuevamente");
+    }
+    throw e
+  }
+
+  revalidatePath("/admin/tecnologias");
+};
