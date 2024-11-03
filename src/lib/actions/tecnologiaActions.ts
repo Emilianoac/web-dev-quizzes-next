@@ -90,3 +90,16 @@ export async function updateTechnology(data: FormData) {
 
   revalidatePath("/admin/tecnologias");
 };
+
+export async function deleteTechnology(id: string) {
+  console.log("deleteTechnology", id);
+  try {
+    await prisma.technology.delete({ where: { id: id } });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error al eliminar la tecnología, intente nuevamente");
+    }
+    throw e;
+  }
+  revalidatePath("/admin");
+}

@@ -8,6 +8,7 @@ interface QuizCardProps {
   quiz: {
     title: string
     slug: string
+    id: string
     technology: {
       icon: string,
       name: string
@@ -63,7 +64,7 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
          <CardActions
             className="p-4"
             cardType="quizzes"
-            itemId={quiz.slug}
+            itemId={quiz.id}
             itemSlug={quiz.slug}
           />
         }

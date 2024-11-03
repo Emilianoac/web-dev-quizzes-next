@@ -31,12 +31,13 @@ export default async function QuizzesPage() {
           title: quiz.title,
           description: quiz.description,
           slug: quiz.slug,
+          id: quiz.id,
           level: quiz.level,
           technology: {
             icon: quiz.technology.icon,
             name: quiz.technology.name,
             area: quiz.technology.area.name,
-            slug: quiz.technology.slug
+            slug: quiz.technology.slug,
           }
         }} admin={true} /> )}
       </div>

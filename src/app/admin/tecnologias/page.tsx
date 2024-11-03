@@ -25,7 +25,8 @@ export default async function TechnologyPage() {
             icon: technology.icon,
             area: technology.area.name,
             slug: technology.slug,
-            quizzes: technology.quiz.length
+            quizzes: technology.quiz.length,
+            id: technology.id
           }} 
           admin={true}
           />

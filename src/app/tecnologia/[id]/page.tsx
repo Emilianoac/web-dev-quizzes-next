@@ -60,6 +60,7 @@ export default async function TechnologyPage({ params }: Props) {
                 <QuizCard key={q.slug} quiz={{
                   title: q.title,
                   slug: q.slug,
+                  id: q.id,
                   description: q.description,
                   level: q.level,
                   technology: {

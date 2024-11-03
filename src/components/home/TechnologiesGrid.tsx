@@ -59,6 +59,7 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
               data={{
                 title: technology.name,
                 area: area.name,
+                id: technology.id,
                 slug: technology.slug,
                 icon: technology.icon,
                 quizzes: technology.quiz.length,

@@ -95,5 +95,22 @@ export async function updateQuiz(data: FormData) {
   }
 
   revalidatePath("/admin");
-}
+};
+
+export async function deleteQuiz(id: string) {
+  try {
+    await prisma.quiz.delete({
+      where: {
+        id: id
+      }
+    });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      throw new Error("Error al eliminar el quiz, intente nuevamente");
+    }
+    throw e
+  }
+
+  revalidatePath("/admin");
+};
 

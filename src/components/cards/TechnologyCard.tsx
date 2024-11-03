@@ -10,6 +10,7 @@ interface CardProps {
     slug: string
     icon: string
     quizzes: number
+    id: string
   }
   admin?: boolean
 }
@@ -46,7 +47,7 @@ export default function QuizCard({ data, admin }: CardProps) {
           <TechCardActions
             className="p-4 justify-center"
             cardType="tecnologias"
-            itemId={data.slug}
+            itemId={data.id}
             itemSlug={data.slug}
           />
         }
