@@ -5,7 +5,10 @@ import AppNavbar from "@/components/AppNavbar";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Web dev quizzes",
+  title: { 
+    default: "Web Dev Quizzes", 
+    template: "%s - Web Dev Quizzes" 
+  },
   description: "Test your web development knowledge",
 };
 

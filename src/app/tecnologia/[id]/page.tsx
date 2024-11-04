@@ -3,6 +3,8 @@ import prisma from "@/lib/prisma";
 import QuizCard from "@/components/cards/QuizCard";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import appMetaData from "@/constants/metaData";
 
 interface Props {
   params: {
@@ -10,25 +12,42 @@ interface Props {
   }
 }
 
-export default async function TechnologyPage({ params }: Props) {
-
-  const technology = await prisma.technology.findUnique({
-    where: { slug: params.id },
-    include: {
-      area: true,
-      quiz: {
-        where: { isPublic: true },
-        include: {
-          questions: {
-            include: {
-              answers: true
+async function getTechnology(slug: string) {
+  try {
+    const technology = await prisma.technology.findUnique({
+      where: { slug },
+      include: {
+        area: true,
+        quiz: {
+          where: { isPublic: true },
+          include: {
+            questions: {
+              include: {
+                answers: true
+              }
             }
           }
         }
       }
-    }
-  })
+    })
+    return technology;
+  } catch {
+    console.error("Error al obtener la tecnología");
+  }
+};
 
+export async function generateMetadata( { params }: Props ): Promise<Metadata> {
+  const id = params.id;
+  const technology = await getTechnology(id);
+  return {
+    title: `${technology?.name}`,
+    description: `${appMetaData.tecnologia.description} ${technology?.name}`
+  }
+};
+
+export default async function TechnologyPage({ params }: Props) {
+
+  const technology = await getTechnology(params.id);
   if (!technology) redirect("/");
 
   return (

@@ -3,6 +3,14 @@ import prisma from "@/lib/prisma";
 import QuizzCard from "@/components/cards/QuizCard";
 import SectionsHeader from "@/components/admin/AdminSectionHeader";
 
+import type { Metadata } from "next";
+import appMetaData from "@/constants/metaData";
+
+export const metadata: Metadata = {
+  title: `${appMetaData.quizzes.title}`,
+};
+
+
 export default async function QuizzesPage() {
   const quizzes = await prisma.quiz.findMany({
     include: {

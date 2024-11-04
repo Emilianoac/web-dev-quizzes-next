@@ -1,6 +1,12 @@
 import SectionsHeader from "@/components/admin/AdminSectionHeader";
 import TechnologyCard from "@/components/cards/TechnologyCard";
 import prisma from "@/lib/prisma";
+import type { Metadata } from "next";
+import appMetaData from "@/constants/metaData";
+
+export const metadata: Metadata = {
+  title: `${appMetaData.tecnologias.title}`,
+};
 
 export default async function TechnologyPage() {
 

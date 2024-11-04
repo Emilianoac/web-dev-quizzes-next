@@ -2,6 +2,12 @@ import SectionsHeader from "@/components/admin/AdminSectionHeader";
 import AppLinkButton from "@/components/AppLinkButton";
 import prisma from "@/lib/prisma";
 import { FaEdit } from "react-icons/fa";
+import type { Metadata } from "next";
+import appMetaData from "@/constants/metaData";
+
+export const metadata: Metadata = {
+  title: `${appMetaData.areas.title}`,
+}
 
 export default async function CategoriesPage() {
   const areas = await prisma.area.findMany({

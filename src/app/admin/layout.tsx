@@ -2,6 +2,16 @@ import AppNavlink from "@/components/AppNavLink";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import {redirect } from "next/navigation";
+import type { Metadata } from "next";
+import appMetaData from "@/constants/metaData";
+
+export const metadata: Metadata = {
+  title: {
+    default: `${appMetaData.admin.title}`, 
+    template: `${appMetaData.admin.title} - %s`,
+
+  }
+}
 
 export default async function AmdminLayout({ children }: Readonly<{ children: React.ReactNode}>) {
   const session = await getServerSession(authOptions);
