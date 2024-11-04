@@ -17,7 +17,7 @@ export default async function AppNavbar() {
       <div className="container">
         <div className="flex justify-between items-center">
           <Link href="/">
-            <AppLogo className="w-[140px]  md:w-[200px]"/>
+            <AppLogo className="w-[160px] md:w-[200px]"/>
           </Link>
           <div className="flex gap-3">
             <AppDarkModeToggle />    
