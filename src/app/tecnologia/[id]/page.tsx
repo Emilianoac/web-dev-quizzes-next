@@ -53,9 +53,14 @@ export default async function TechnologyPage({ params }: Props) {
   return (
     <div>
       <div className="block md:flex items-center gap-9 text-center md:text-start bg-white dark:bg-blue-gray p-5 rounded-lg">
-        <div className="flex items-center justify-center bg-slate-100 w-[160px] h-[160px] rounded-full flex-shrink-0 mx-auto md:mx-0">
+        <div className="
+          flex items-center justify-center flex-shrink-0 
+          bg-slate-100 
+          w-[100px] h-[100px]  sm:w-[160px] sm:h-[160px] 
+          rounded-full 
+          mx-auto md:mx-0">
           <Image 
-            className="object-scale-down h-[80px] w-[80px]" 
+            className="object-scale-down w-[40px] h-[40px] sm:h-[80px] sm:w-[80px]" 
             src={technology.icon} 
             alt={technology.name} 
             width={100} 
