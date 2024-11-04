@@ -11,7 +11,8 @@ export async function addQuiz(data: FormData) {
   const description = data.get("description") as string;
   const technologyId = data.get("technologyId") as string;
   const questions = JSON.parse(data.get("questions") as string);
-
+  const level = data.get("level") as string;
+  const isPublic = data.get("isPublic") === "true" ? true : false;
   const slug = slugify(title, { strict: true, lower: true });
 
   try {
@@ -19,7 +20,9 @@ export async function addQuiz(data: FormData) {
       data: {
         title,
         description,
+        isPublic,
         slug,
+        level,
         technology: {
           connect: {id: technologyId}
         },
