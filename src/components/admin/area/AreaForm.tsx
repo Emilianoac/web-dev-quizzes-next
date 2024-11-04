@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Area } from "@prisma/client";
-import { addArea, editArea, deleteArea } from "@/lib/actions/areaActions";
+import { addArea, editArea } from "@/lib/actions/areaActions";
 import { useRouter } from "next/navigation";
 import { areaSchema, type AreaErrorSchema, type AreaSchema } from "@/schemas/areaSchema";
 import AppButton from "@/components/AppButton";
@@ -56,22 +56,6 @@ export default function AreaForm({ area }: AreaFormProps) {
     }
   }
 
-  async function handleDelete() {
-    if (!area) return;
-    try {
-      await deleteArea(area.id);
-
-      router.push("/admin/areas");
-
-    } catch (error) {
-      if (error instanceof Error) {
-        setFetchError({ text: error.message, status: true });
-      } else {
-        setFetchError({ text: "Ocurrió un error, intente nuevamente", status: true });
-      }
-    }
-  }
-
   function validateFormData(data: AreaSchema) {
     const validSchema = areaSchema.safeParse(data);
 
@@ -89,14 +73,8 @@ export default function AreaForm({ area }: AreaFormProps) {
       { fetchError.status && <AppAlert text={fetchError.text} type="error"/> }
       <form onSubmit={(e) => handleSubmit(e)} >
       {area && 
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex justify-between items-center">
           <h1 className="text-3xl font-bold mb-5">Editar Area</h1>
-          <AppButton  
-            className="bg-red-500 hover:bg-red-700 text-sm"
-            onClick={() => handleDelete()}
-          >
-            Eliminar Area
-          </AppButton> 
         </div>
         }
         <div className="mb-4">
