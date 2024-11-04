@@ -30,10 +30,10 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
     <div>
       {/* Filtros */}
       <ul className="flex gap-2 mb-4 flex-wrap">
-        <li className="text-sm">
+        <li>
           <button 
             className={`
-              py-2 px-4 text-xs md:text-sm 
+              py-2 px-4 text-[0.8em] md:text-sm 
               bg-slate-200 dark:bg-slate-800
               rounded-md
               ${currentArea === "todos" && "!bg-primary-500 !text-white font-bold"}`
@@ -44,10 +44,10 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
         </li>
         {
           areas.map((area) => (
-            <li key={area.id} className=" text-sm">
+            <li key={area.id}>
               <button 
                 className={`
-                  py-2 px-4 text-xs md:text-sm 
+                  py-2 px-4 text-[0.8em] md:text-sm 
                   bg-slate-200 dark:bg-slate-800
                   rounded-md
                   ${currentArea === area.name && "!bg-primary-500 !text-white font-bold"}`
