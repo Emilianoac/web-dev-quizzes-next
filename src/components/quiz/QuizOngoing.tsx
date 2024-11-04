@@ -85,7 +85,13 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
         )}
       </div>
       <div className="rounded-md w-full shadow-md bg-white dark:bg-blue-gray">
-        <div className="p-6 pb-0 max-h-[300px] md:max-h-none overflow-auto">
+        <div 
+          className="
+            p-6 pb-0 
+            max-h-[70vh] 
+            md:max-h-none 
+            overflow-auto
+          ">
           <div id="quiz-container">
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
