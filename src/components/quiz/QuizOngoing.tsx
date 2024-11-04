@@ -88,7 +88,9 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
         <div 
           className="
             p-6 pb-0 
-            max-h-[70vh] 
+            max-h-[65vh] 
+            min-h-[65vh]
+            md:min-h-none
             md:max-h-none 
             overflow-auto
           ">
