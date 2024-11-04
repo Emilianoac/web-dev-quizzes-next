@@ -4,18 +4,22 @@ import slugify from "slugify";
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import type { Question, Answer } from "@/types/quiz";
+import { quizSchema } from "@/schemas/quizSchema";
 import prisma from "@/lib/prisma";
 
 export async function addQuiz(data: FormData) {
-  const title = data.get("title") as string;
-  const description = data.get("description") as string;
-  const technologyId = data.get("technologyId") as string;
-  const questions = JSON.parse(data.get("questions") as string);
-  const level = data.get("level") as string;
-  const isPublic = data.get("isPublic") === "true" ? true : false;
-  const slug = slugify(title, { strict: true, lower: true });
 
   try {
+    if (!validateData(data)) throw new Error("Error al validar los datos, intente nuevamente");
+
+    const title = data.get("title") as string;
+    const description = data.get("description") as string;
+    const technologyId = data.get("technologyId") as string;
+    const questions = JSON.parse(data.get("questions") as string);
+    const level = data.get("level") as string;
+    const isPublic = data.get("isPublic") === "true" ? true : false;
+    const slug = slugify(title, { strict: true, lower: true });
+
     await prisma.quiz.create({
       data: {
         title,
@@ -53,15 +57,18 @@ export async function addQuiz(data: FormData) {
 };
 
 export async function updateQuiz(data: FormData) {
-  const title = data.get("title") as string;
-  const isPublic = data.get("isPublic") === "true" ? true : false;
-  const id = data.get("id") as string;
-  const description = data.get("description") as string;
-  const level = data.get("level") as string;
-  const technologyId = data.get("technologyId") as string;
-  const questions = JSON.parse(data.get("questions") as string);
 
   try {
+    if (!validateData(data)) throw new Error("Error al validar los datos, intente nuevamente");
+    
+    const title = data.get("title") as string;
+    const isPublic = data.get("isPublic") === "true" ? true : false;
+    const id = data.get("id") as string;
+    const description = data.get("description") as string;
+    const level = data.get("level") as string;
+    const technologyId = data.get("technologyId") as string;
+    const questions = JSON.parse(data.get("questions") as string);
+
     await prisma.quiz.update({
       where: {
         id: id
@@ -116,4 +123,32 @@ export async function deleteQuiz(id: string) {
 
   revalidatePath("/admin");
 };
+
+function validateData(data: FormData) {
+  const title = data.get("title") as string;
+  const description = data.get("description") as string;
+  const technologyId = data.get("technologyId") as string;
+  const questions =  JSON.parse(data.get("questions") as string);
+  const level = data.get("level") as string;
+  const isPublic = data.get("isPublic") === "true" ? true : false;
+
+
+  const formData = {
+    title: title,
+    description: description,
+    technologyId: technologyId,
+    questions: questions,
+    level: level,
+    isPublic: isPublic
+  }
+
+  const validSchema = quizSchema.safeParse(formData);
+
+  if (!validSchema.success)  {
+    console.log(validSchema.error.format());
+    return false
+  } else {
+    return true
+  }
+}
 

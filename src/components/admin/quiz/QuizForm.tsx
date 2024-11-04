@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useQuiz } from "@/hooks/useQuizForm";
 import { addQuiz, updateQuiz} from "@/lib/actions/quizActions";
-import { useRouter } from "next/navigation";
+import { quizSchema, QuizSchema, QuizErrorSchema } from "@/schemas/quizSchema";
 import AppButton from "@/components/AppButton";
 import AppLinkButton from "@/components/AppLinkButton";
 import AppLoader from "@/components/AppLoader";
@@ -35,6 +36,9 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
     questions: createInitialQuestions(quizData?.questions.length ?? 5, 4, quizData?.questions)
   });
 
+  const [formError, setFormError] = useState<QuizErrorSchema | undefined>(undefined);
+
+
   function setNumberOfQuestions(num: number) {
     setQuiz((prev) => ({
       ...prev,
@@ -44,6 +48,8 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!validateFormData(quiz)) return;
 
     const formData = new FormData();
     formData.append("title", quiz.title);
@@ -66,6 +72,19 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
     } catch (error) {
       setIsLoading(false);
       console.error(error);
+    }
+  }
+
+  function validateFormData(data: QuizSchema) {
+    const validSchema = quizSchema.safeParse(data);
+
+    if (!validSchema.success)  {
+      setFormError(validSchema.error.format());
+      console.log(validSchema.error.format()); 
+      return false;
+    } else {
+      setFormError(undefined);
+      return true;
     }
   }
 
@@ -93,6 +112,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
             Titulo
           </label>
           <input
+            placeholder="Escribe el titulo del quiz"
             type="text"
             name="title"
             id="title"
@@ -100,6 +120,11 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
             defaultValue={quiz.title}
             onChange={(e) => quiz.title = e.target.value}
           />
+          {formError?.title && 
+            formError.title._errors.map((error, index) => (
+              <p key={index} className="text-red-500 text-xs italic mt-2">{error}</p>
+            ))
+          }        
         </div>
 
         {/* Nivel */ }
@@ -111,13 +136,20 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
             name="level"
             id="level"
             className="p-2"
-            defaultValue={quiz.level}
+            defaultValue={quiz.level || "0"}
             onChange={(e) => quiz.level = e.target.value}
           >
+            <option disabled value="0">Selecciona un nivel</option>
             <option value="basico">Básico</option>
             <option value="intermedio">Intermedio</option>
             <option value="avanzado">Avanzado</option>
           </select>
+          {
+            formError?.level && 
+            formError.level._errors.map((error, index) => (
+              <p key={index} className="text-red-500 text-xs italic mt-2">{error}</p>
+            ))
+          }
         </div>
 
         {/* Descripción */}
@@ -126,6 +158,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
             Descripción
           </label>
           <textarea
+            placeholder="Escribe la descripción del quiz"
             name="description"
             id="description"
             className="p-2"
@@ -136,7 +169,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
           ></textarea>
         </div>
 
-        {/* Categoria */}
+        {/* Tecnología */}
         <div className="mb-4">
           <label htmlFor="technology" className="block text-sm font-bold mb-2">Tecnología</label>
           <select
@@ -144,21 +177,34 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
             id="technology"
             className="p-2 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={quizData ? true : false}
-            defaultValue={quiz.technologyId}
+            defaultValue={quiz.technologyId || "0"}
             onChange={(e) => {
               setQuiz((prev) => ({ ...prev, technologyId: e.target.value }));
             }}
           >
-            <option disabled> Selecciona una tecnología</option>
+            <option disabled value="0" > Selecciona una tecnología</option>
             {technologies.map((tech) => (
               <option key={tech.id} value={tech.id}>
                 {tech.name}
               </option>
             ))}
           </select>
+          {
+            formError?.technologyId && 
+            formError.technologyId._errors.map((error, index) => (
+              <p key={index} className="text-red-500 text-xs italic mt-2">{error}</p>
+            ))
+          }
         </div>
 
         <hr className="my-8 dark:border-slate-700"/>
+
+        {
+          formError?.questions &&
+          formError.questions._errors.map((error, index) => (
+            <p key={index} className="text-red-500 text-xs italic mt-2">{error}</p>
+          ))
+        }
 
         {/* Preguntas */}
         <div className="mb-4 flex flex-col items-end">
@@ -185,6 +231,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
             <div className="mb-4">
               <input
                 type="text"
+                placeholder="Escribe la pregunta"
                 name={`question-${index}`}
                 id={`question-${index}`}
                 className="p-2"
@@ -195,6 +242,12 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                   setQuiz({ ...quiz, questions: newQuestions });
                 }}
               />
+              {
+                formError?.questions && formError.questions[index]?.questionText &&
+                formError.questions[index].questionText._errors.map((error, index) => (
+                  <p key={index} className="text-red-500 text-xs italic mt-2">{error}</p>
+                ))
+              }
 
               {/* Respuestas */}
               <div className="mt-6">
@@ -204,28 +257,37 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                       type="radio"
                       name={`correct-answer-${question.id}`}
                       id={`correct-${answer.id}`}
-                      className="me-2"
+                      className="me-2 cursor-pointer"
                       defaultChecked={answer.isCorrect}
                       onChange={() => {
                         setCorrectAnswer(question, answer.id);
                       }}
                     />
-                    <input
-                      type="text"
-                      name={`questions-${question.id}`}
-                      id={`${answer.id}`}
-                      className="w-full p-2 border border-slate-400 rounded-md text-black"
-                      defaultValue={answer.answerText}
-                      onChange={(e) => {
-                        const newAnswers = [...question.answers];
-                        newAnswers[answerIndex].answerText = e.target.value;
-                        setQuiz((prev) => {
-                          const newQuestions = [...prev.questions];
-                          newQuestions[index].answers = newAnswers;
-                          return { ...prev, questions: newQuestions };
-                        });
-                      }}
-                    />
+                    <div className="w-full">
+                      <input
+                        type="text"
+                        placeholder={`Respuesta ${answerIndex + 1}`}
+                        name={`questions-${question.id}`}
+                        id={`${answer.id}`}
+                        className="w-full p-2 border border-slate-400 rounded-md text-black"
+                        defaultValue={answer.answerText}
+                        onChange={(e) => {
+                          const newAnswers = [...question.answers];
+                          newAnswers[answerIndex].answerText = e.target.value;
+                          setQuiz((prev) => {
+                            const newQuestions = [...prev.questions];
+                            newQuestions[index].answers = newAnswers;
+                            return { ...prev, questions: newQuestions };
+                          });
+                        }}
+                      />
+                      {
+                        formError?.questions?.[index]?.answers?.[answerIndex]?.answerText &&
+                        formError.questions[index].answers[answerIndex].answerText._errors.map((error, index) => (
+                          <p key={index} className="text-red-500 text-xs italic mt-2">{error}</p>
+                        ))
+                      }
+                    </div>
                   </div>
                 ))}
               </div>
@@ -239,9 +301,16 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                     Explicación de la respuesta correcta
                   </label>
                   <textarea
+                    placeholder="Escribe la explicación"
                     defaultValue={question.answerExplain}
                     onChange={(e) => question.answerExplain = e.target.value}
                   ></textarea>
+                  {
+                    formError?.questions && formError.questions[index]?.answerExplain &&
+                    formError.questions[index].answerExplain._errors.map((error, index) => (
+                      <p key={index} className="text-red-500 text-xs italic mt-2">{error}</p>
+                    ))
+                  }
                 </div>
                 <div className="mt-5">
                   <label 
@@ -250,6 +319,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                     Ejemplo de código
                   </label>
                   <textarea 
+                    placeholder="Escribe el ejemplo de código"
                     rows={5} 
                     onChange={(e) => question.codeExample = e.target.value}
                     defaultValue={question.codeExample}>
