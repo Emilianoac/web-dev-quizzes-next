@@ -8,7 +8,7 @@
   }
 
   .quiz-option-label {
-    @apply block text-sm md:text-base p-4 cursor-pointer w-full;
+    @apply block text-sm md:text-base p-4 cursor-pointer w-full select-none;
   }
 }
 .quiz-option.selected-option {
