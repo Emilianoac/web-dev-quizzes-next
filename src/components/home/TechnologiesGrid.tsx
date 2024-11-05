@@ -26,6 +26,12 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
     }
   }, [currentArea, areas]);
 
+  const quizCount = areas.reduce((areaAcc, area) => {
+    return areaAcc + area.technologies.reduce((techAcc, technology) => {
+      return techAcc + technology.quiz.length;
+    }, 0);
+  }, 0);
+
   return (
     <div>
       {/* Filtros */}
@@ -59,6 +65,11 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
           ))
         }
       </ul>
+
+      {/* Contador de quizzes */}
+      <p className="text-sm text-end mb-3 mt-6">
+        <strong>{quizCount}</strong> quizzes disponibles
+      </p>
 
        {/* Grid de tecnologias */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4">
