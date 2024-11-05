@@ -77,7 +77,7 @@ export default function AreaTable({ areas }: AreaTableProps) {
                   <AppButton
                     onClick={() => handleDeleteArea(area.id)}
                     title="Eliminar"
-                    className="text-xs bg-gray-500 hover:bg-gray-700"
+                    className="text-xs !bg-gray-500 hover:!bg-gray-700"
                   >
                     <FaTrashAlt/>
                   </AppButton>
