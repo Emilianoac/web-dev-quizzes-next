@@ -1,7 +1,6 @@
 
 const appMetaData = {
   inicio: {
-    title: "Inicio",
     description: `
       Mejora tus habilidades de desarrollo web con Web Dev Quizzes. 
       Descubre una amplia gama de cuestionarios interactivos que cubren HTML, 
