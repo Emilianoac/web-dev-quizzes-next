@@ -16,21 +16,33 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
 
   const [currentArea, setCurrentArea] = useState("todos");
   const [filteredAreas, setFilteredAreas] = useState(areas);
+  const [quizCount, setQuizCount] = useState(0);
 
   useEffect(() => {
     if (currentArea === "todos") {
       setFilteredAreas(areas);
+
+      const count = calculateQuizCount(areas);
+      setQuizCount(count);
     } else {
       const filtered = areas.filter((area) => area.name === currentArea);
       setFilteredAreas(filtered);
+
+      const count = calculateQuizCount(filtered);
+
+      setQuizCount(count);
     }
   }, [currentArea, areas]);
 
-  const quizCount = areas.reduce((areaAcc, area) => {
-    return areaAcc + area.technologies.reduce((techAcc, technology) => {
-      return techAcc + technology.quiz.length;
+  function calculateQuizCount( areas: (Area & { technologies: (Technology & { quiz: Quiz[] })[] })[] ) {
+    const count = areas.reduce((areaAcc, area) => {
+      return areaAcc + area.technologies.reduce((techAcc, technology) => {
+        return techAcc + technology.quiz.length;
+      }, 0);
     }, 0);
-  }, 0);
+  
+    return count;
+  }
 
   return (
     <div>
@@ -68,7 +80,7 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
 
       {/* Contador de quizzes */}
       <p className="text-sm text-end mb-3 mt-6">
-        <strong>{quizCount}</strong> quizzes disponibles
+        <strong>{quizCount > 1 ? `${quizCount} quizzes` : `${quizCount} quiz`}</strong>
       </p>
 
        {/* Grid de tecnologias */}
