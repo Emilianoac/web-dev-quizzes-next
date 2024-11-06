@@ -11,12 +11,12 @@ import { anOldHope } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { FaTimes } from "react-icons/fa";
 
 
+type QuestionsProps = (Question & {answers: Answer[]})[];
+
 interface QuizOnGoingProps {
   quiz: Quiz & {
     technology: Technology;
-    questions: (Question & {
-      answers: Answer[];
-    })[];
+    questions: QuestionsProps
   }
   setFinish: (value: {
     status: boolean;
@@ -33,6 +33,7 @@ interface CorrrectAnswerExplanationModalProps {
 
 export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
 
+  const [questions, setQuestions] = useState<QuestionsProps>(quiz.questions);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [checkAnswer, setCheckAnswer] = useState<boolean>(false);
@@ -47,20 +48,19 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
     scrollToTop();
     setCheckAnswer(true);
 
-    quiz.questions[currentQuestion].answers.map((answer) => {
+    questions[currentQuestion].answers.map((answer) => {
       if (selectedAnswer === answer.id) {
-        const questionId = quiz.questions[currentQuestion].id;
+        const questionId = questions[currentQuestion].id;
         setHistory([...history, `${questionId}:${answer.id}` ]);
         setIsCorrect(answer.isCorrect);
       };
     })
-
   }
 
   function handleNextQuestion() {
     setCheckAnswer(false);
 
-    if (currentQuestion  === quiz.questions.length - 1) {
+    if (currentQuestion  === questions.length - 1) {
       setProgressPercentage(100);
     } else {
       setCurrentQuestion(currentQuestion + 1);
@@ -69,23 +69,29 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
     setSelectedAnswer(null);
   }
 
+  function finishQuiz() {
+    setFinish({
+      status: true,
+      history: history
+    });
+  }
+
   function scrollToTop() {
     const quizContainer = document.getElementById("quiz-container");
     quizContainer?.scrollIntoView({block: "start", behavior: "smooth"});
   }
 
-  useEffect(() => {
-    setProgressPercentage(currentQuestion / quiz.questions.length  * 100)
-  }, [currentQuestion, quiz.questions.length])
 
   useEffect(() => {
-    if (progressPercentage === 100) {
-      setFinish({
-        status: true,
-        history: history
-      });
-    } 
-  }, [history, progressPercentage, setFinish])
+    // Solo ordenar una vez al montar el componente
+    setQuestions(prevQuestions => 
+      [...prevQuestions].sort(() => Math.random() - 0.5)
+    );
+  }, [])
+
+  useEffect(() => {
+    setProgressPercentage(currentQuestion / questions.length  * 100)
+  }, [currentQuestion, questions.length])
 
   return (
     <>
@@ -124,7 +130,7 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
               <div>
                 <span className="me-2">Pregunta</span>
                 <span>
-                  {currentQuestion + 1} de {quiz.questions.length}
+                  {currentQuestion + 1} de {questions.length}
                 </span>
               </div>
             </div>
@@ -142,12 +148,12 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
             {/* Pregunta */}
             <h4 className="font-semibold  md:text-2xl my-5">
               <strong className="me-1"> {currentQuestion + 1}. </strong>
-              {quiz.questions[currentQuestion].questionText}
+              {questions[currentQuestion].questionText}
             </h4>
 
             {/* Opciones */}
             <ul>
-              {quiz.questions[currentQuestion].answers.map((answer, index) => (
+              {questions[currentQuestion].answers.map((answer, index) => (
                 <li
                   key={index}
                   className={`
@@ -209,19 +215,28 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
             Ver detalles
           </AppButton>
           }
-          <AppButton
-            disabled={selectedAnswer === null || progressPercentage === 100}
-            className="text-sm md:text-base"
-            onClick={() => !checkAnswer ? handleCheckAnwer() : handleNextQuestion()}
-          >
-            {checkAnswer ? "Siguiente Pregunta" : "Verificar"}
-          </AppButton>
+          { currentQuestion  !== questions.length - 1 ?
+            <AppButton
+              disabled={selectedAnswer === null || progressPercentage === 100}
+              className="text-sm md:text-base"
+              onClick={() => !checkAnswer ? handleCheckAnwer() : handleNextQuestion()}
+            >
+              {checkAnswer ? "Siguiente Pregunta" : "Verificar"}
+              {checkAnswer && progressPercentage === 100 && "Finalizar"}
+            </AppButton>:
+            <AppButton
+              className="text-sm md:text-base"
+              onClick={() => !checkAnswer ? handleCheckAnwer() : finishQuiz()}
+            >
+              {checkAnswer ? "Finalizar Quiz" : "Verificar"}
+            </AppButton>
+          }
         </div>
       </div>
 
       {showExplanation && 
         <CorrrectAnswerExplanationModal 
-          question={quiz.questions[currentQuestion]}  
+          question={questions[currentQuestion]}  
           closeModal={() => setShowExplanation(false)}
         />
       }
