@@ -201,7 +201,7 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
             onClick={() => setShowExplanation(true)}
             className="
               text-sm md:text-base 
-              bg-slate-200 text-gray-900
+              bg-slate-200 !text-gray-900
               hover:bg-slate-100"
             >
             Ver detalles
