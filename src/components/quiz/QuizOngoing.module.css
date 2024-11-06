@@ -1,4 +1,6 @@
 
+
+
 .quiz-option {
   @apply flex items-center rounded-md w-full ps-2 mb-2 border border-transparent;
   @apply hover:bg-slate-100 dark:hover:bg-slate-900;
@@ -8,19 +10,43 @@
   }
 
   .quiz-option-label {
-    @apply block text-sm md:text-base p-4 cursor-pointer w-full select-none;
+    @apply block md:flex justify-between items-center text-sm md:text-base p-4 cursor-pointer w-full select-none;
+  }
+
+  &:not(:checked) {
+    @apply hover:bg-slate-100 dark:hover:bg-slate-900;
   }
 }
+
 .quiz-option.selected-option {
-  @apply bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-800;
+  @apply bg-slate-100 dark:bg-slate-900  border-slate-300 dark:border-slate-800 font-semibold ;
 }
 
 .quiz-option.wrong-option {
-  @apply bg-red-100 dark:bg-red-900 border-red-300 dark:border-red-800;
+  @apply border !border-red-500;
+
+  &:not(.selected-option) {
+    
+    &:hover {
+      background-color: transparent
+    }
+  }
+}
+
+.quiz-option.correct-option {
+  @apply border !border-green-500;
+
+  &:not(.selected-option) {
+    &:hover {
+      background-color: transparent
+    }
+  }
 }
 
 
+
+
 .quiz-controls {
-  @apply flex justify-center md:justify-end px-6 py-3 md:p-6 sticky md:relative top-0 border-t border-slate-200 dark:border-slate-800;
+  @apply flex justify-center gap-4 md:justify-end px-6 py-3 md:p-6 sticky md:relative top-0 border-t border-slate-200 dark:border-slate-800;
 }
 
