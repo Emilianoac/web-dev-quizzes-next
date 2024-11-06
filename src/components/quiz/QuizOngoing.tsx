@@ -182,10 +182,12 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
                         <span className="block">
                           {answer.answerText}
                         </span>
-                        <span className="mt-4 md:mt-0 font-bold block text-end text-sm">
-                          {selectedAnswer === answer.id && checkAnswer && "Tu respuesta"}
-                          {checkAnswer && answer.isCorrect && selectedAnswer !== answer.id && "Respuesta correcta"}
-                        </span>
+                        { checkAnswer &&
+                          <span className="mt-4 md:mt-0 font-bold block text-end text-sm">
+                          {selectedAnswer === answer.id &&  "Tu respuesta"}
+                          {answer.isCorrect && selectedAnswer !== answer.id && "Respuesta correcta"}
+                          </span>
+                        }
                       </label>
                 </li>
               ))}
