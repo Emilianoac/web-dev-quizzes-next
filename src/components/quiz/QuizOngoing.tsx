@@ -1,6 +1,5 @@
 "use client";
 
-
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import AppButton from "@/components/AppButton";
@@ -8,7 +7,7 @@ import { Quiz, Technology, Question, Answer } from "@prisma/client";
 import styles from "./QuizOngoing.module.css";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { anOldHope } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaEye } from "react-icons/fa";
 
 
 type QuestionsProps = (Question & {answers: Answer[]})[];
@@ -17,6 +16,9 @@ interface QuizOnGoingProps {
   quiz: Quiz & {
     technology: Technology;
     questions: QuestionsProps
+  },
+  config: {
+    hideOptions: boolean;
   }
   setFinish: (value: {
     status: boolean;
@@ -31,7 +33,7 @@ interface CorrrectAnswerExplanationModalProps {
   }
 }
 
-export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
+export default function QuizOnGoing({ quiz, config, setFinish }: QuizOnGoingProps) {
 
   const [questions, setQuestions] = useState<QuestionsProps>(quiz.questions);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -41,6 +43,7 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
+  const [hiddeOptions, setHiddeOptions] = useState<boolean>(config.hideOptions);
 
   function handleCheckAnwer() {
     if (selectedAnswer === null) return;
@@ -58,6 +61,7 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
   }
 
   function handleNextQuestion() {
+    setHiddeOptions(true);
     setCheckAnswer(false);
 
     if (currentQuestion  === questions.length - 1) {
@@ -80,7 +84,6 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
     const quizContainer = document.getElementById("quiz-container");
     quizContainer?.scrollIntoView({block: "start", behavior: "smooth"});
   }
-
 
   useEffect(() => {
     // Solo ordenar una vez al montar el componente
@@ -151,8 +154,21 @@ export default function QuizOnGoing({ quiz, setFinish }: QuizOnGoingProps) {
               {questions[currentQuestion].questionText}
             </h4>
 
+            { hiddeOptions && 
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setHiddeOptions(false)}
+                  className="bg-black dark:bg-white dark:text-black text-sm rounded-md text-white p-2 hover:opacity-90 mb-2 flex items-center gap-2">
+                  Revelar Alternativas <FaEye/>
+                </button>
+              </div>
+            }
+
             {/* Opciones */}
-            <ul>
+            <ul 
+              className={`
+                ${hiddeOptions && styles['options-blurred'] }
+              `}>
               {questions[currentQuestion].answers.map((answer, index) => (
                 <li
                   key={index}

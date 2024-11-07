@@ -20,20 +20,29 @@ interface QuizMainProps {
 }
 
 export default function QuizMain({ quiz }: QuizMainProps) {
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState({
+    status: false,
+    config: {
+      hideOptions: false
+    }
+  });
   const [finish, setFinish] = useState({
     status: false,
     history: [] as string[],
   });
 
   const renderQuizContent = () => {
-    if (!start) {
+    if (!start.status) {
       return <QuizInit quiz={quiz} setStart={setStart} />;
     }
     if (finish.status) {
       return <QuizResults history={finish.history} quiz={quiz} />;
     }
-    return <QuizOnGoing quiz={quiz} setFinish={setFinish} />;
+    return <QuizOnGoing 
+      quiz={quiz} 
+      config={start.config}
+      setFinish={setFinish} 
+    />;
   };
   return (
     <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({
@@ -41,7 +50,7 @@ export default function QuizMain({ quiz }: QuizMainProps) {
       behavior: "smooth",
     })}>
       <motion.div
-        key={start ? (finish.status ? "results" : "ongoing") : "init"}
+        key={start.status ? (finish.status ? "results" : "ongoing") : "init"}
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 50 }}

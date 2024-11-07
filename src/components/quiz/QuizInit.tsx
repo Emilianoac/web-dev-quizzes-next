@@ -1,13 +1,23 @@
 
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import AppButton from "@/components/AppButton";
 import type { Quiz, Technology, } from "@prisma/client";
-import QuizLevelBadge from "../cards/QuizLevelBadge";
+import QuizLevelBadge from "@/components/cards/QuizLevelBadge";
+import AppCheckboxToggle from "@/components/AppCheckboxToggle";
+import AppButton from "@/components/AppButton";
+
+
+interface SetStartProps {
+  status: boolean;
+  config: {
+    hideOptions: boolean;
+  }
+}
 
 interface QuizInitProps {
-  setStart: (value: boolean) => void;
+  setStart: (value: SetStartProps) => void;
   quiz: Quiz & {
     technology: Technology;
   }
@@ -17,6 +27,11 @@ type Level = "basico" | "intermedio" | "avanzado";
 
 
 export default function QuizInit({ quiz, setStart }: QuizInitProps) {
+
+  const [config, setConfig] = useState({
+    hideOptions: false
+  })
+
   return (
     <div className="h-full md:h-[calc(100vh-150px)] flex items-center justify-center">
       <div 
@@ -58,6 +73,23 @@ export default function QuizInit({ quiz, setStart }: QuizInitProps) {
 
             {/* Descripcion */}
             <p className="text-[0.93em]  text-center mt-2 opacity-65">{quiz.description}</p>
+ 
+            <hr className="my-6 dark:border-t-slate-700 border-t-slate-200" />
+
+            {/* Opciones */}
+            <div className="mb-5">
+              <AppCheckboxToggle
+                onChange={(e) => setConfig({ hideOptions: e.target.checked })}
+                defaultChecked={config.hideOptions} 
+              >
+                Ocultar alternativas inicialmente
+              </AppCheckboxToggle>
+              <p className="text-[0.83em] mt-1 opacity-60">
+              Las alternativas estarán ocultas para que reflexiones 
+              sobre la respuesta antes de verlas. Este modo está pensado para 
+              ejercitar tu memoria y potenciar el aprendizaje.
+              </p>
+            </div>
 
           </div>
           {/* Boton de inicio */}
@@ -68,7 +100,7 @@ export default function QuizInit({ quiz, setStart }: QuizInitProps) {
             px-6 py-3">
             <AppButton
               className="text-sm: md:text-base w-full"
-              onClick={() => setStart(true)}>
+              onClick={() => setStart({status: true, config: {hideOptions: config.hideOptions }})}>
               Comenzar Quiz
             </AppButton>
           </div>
