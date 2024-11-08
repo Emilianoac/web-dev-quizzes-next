@@ -60,7 +60,7 @@ model Question {
   createdAt       DateTime       @default(now())
   answerExplain   String      
   codeExample     String?    
-
+  codeLanguage    String?        @default("plaintext")
   answers         Answer[]       
 }
 
