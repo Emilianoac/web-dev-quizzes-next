@@ -43,7 +43,7 @@ export default function QuizOnGoing({ quiz, config, setFinish }: QuizOnGoingProp
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
-  const [hiddeOptions, setHiddeOptions] = useState<boolean>(config.hideOptions);
+  const [hiddeOptions, setHiddeOptions] = useState<boolean>(config.hideOptions ? true : false);
 
   function handleCheckAnwer() {
     if (selectedAnswer === null) return;
@@ -61,7 +61,8 @@ export default function QuizOnGoing({ quiz, config, setFinish }: QuizOnGoingProp
   }
 
   function handleNextQuestion() {
-    setHiddeOptions(true);
+    if (config.hideOptions) setHiddeOptions(true);
+
     setCheckAnswer(false);
 
     if (currentQuestion  === questions.length - 1) {
