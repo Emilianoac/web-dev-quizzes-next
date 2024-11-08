@@ -79,24 +79,45 @@ export async function updateQuiz(data: FormData) {
         level,
         isPublic,
         technology: {
-          connect: {id: technologyId}
+          connect: { id: technologyId }
         },
         questions: {
-          deleteMany: {},
-          create: questions.map((question: Question) => ({
-            questionText: question.questionText,
-            codeExample: question.codeExample,
-            answerExplain: question.answerExplain,
-            answers: {
-              create: question.answers.map((answer: Answer) => ({
-                answerText: answer.answerText,
-                isCorrect: answer.isCorrect
-              }))
+          upsert: questions.map((question: Question) => ({
+            where: { id: question.id }, // Identifica la pregunta por su ID único
+            update: {
+              questionText: question.questionText,
+              codeExample: question.codeExample,
+              answerExplain: question.answerExplain,
+              answers: {
+                upsert: question.answers.map((answer: Answer) => ({
+                  where: { id: answer.id }, // Identifica la respuesta por su ID único
+                  update: {
+                    answerText: answer.answerText,
+                    isCorrect: answer.isCorrect
+                  },
+                  create: {
+                    answerText: answer.answerText,
+                    isCorrect: answer.isCorrect
+                  }
+                }))
+              }
+            },
+            create: {
+              questionText: question.questionText,
+              codeExample: question.codeExample,
+              answerExplain: question.answerExplain,
+              answers: {
+                create: question.answers.map((answer: Answer) => ({
+                  answerText: answer.answerText,
+                  isCorrect: answer.isCorrect
+                }))
+              }
             }
           }))
         }
       }
     });
+    
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       throw new Error("Error al actualizar el quiz, intente nuevamente");
