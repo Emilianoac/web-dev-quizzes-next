@@ -6,7 +6,7 @@ import AppButton from "@/components/AppButton";
 import { Quiz, Technology, Question, Answer } from "@prisma/client";
 import styles from "./QuizOngoing.module.css";
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { anOldHope } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { atomOneDarkReasonable } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { FaTimes, FaEye } from "react-icons/fa";
 
 
@@ -324,8 +324,8 @@ export function CorrrectAnswerExplanationModal({ question, closeModal } : Corrre
             <SyntaxHighlighter 
               customStyle={{padding: "1rem"}}
               lineNumberContainerStyle={{padding: "1rem"}}
-              language="javascript"
-              style={anOldHope}>
+              language={question.codeLanguage as string}
+              style={atomOneDarkReasonable}>
                 {question.codeExample}
             </SyntaxHighlighter>
           </div>
