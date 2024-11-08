@@ -19,6 +19,7 @@ async function getTechnology(slug: string) {
       include: {
         area: true,
         quiz: {
+          orderBy: { level: "asc" },
           where: { isPublic: true },
           include: {
             questions: {
