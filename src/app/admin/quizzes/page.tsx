@@ -13,6 +13,9 @@ export const metadata: Metadata = {
 
 export default async function QuizzesPage() {
   const quizzes = await prisma.quiz.findMany({
+    orderBy: {
+      createdAt: "desc"
+    },
     include: {
       technology: {
         include: {
