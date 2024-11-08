@@ -335,42 +335,44 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                 </div>
                 
                 {/* Lenguaje del código */}
-                <div className="mt-5">
-                  <label 
-                    htmlFor="language"
-                    className="block text-sm font-bold mb-2">
-                    Lenguaje del código
-                  </label>
-                  <select
-                    name="language"
-                    id="language"
-                    className="p-2 rounded-bl-none rounded-br-none"
-                    defaultValue={question.codeLanguage}
-                    onChange={
-                      (e) => setQuiz((prev) => {
-                        const newQuestions = [...prev.questions];
-                        newQuestions[index].codeLanguage = e.target.value;
-                        return { ...prev, questions: newQuestions };
-                      })
-                    }
-                  >
-                    <option disabled value="0">Selecciona un lenguaje</option>
-                    {
-                      listLanguages().map((lang) => (
-                        <option key={lang} value={lang}>
-                          {lang}
-                        </option>
-                      ))
-                    }
-                  </select>
-                  <SyntaxHighlighter 
-                    customStyle={{padding: "1rem"}}
-                    lineNumberContainerStyle={{padding: "1rem"}}
-                    style={atomOneDarkReasonable}
-                    language={question.codeLanguage}>
-                      {question.codeExample}
-                  </SyntaxHighlighter>
-                </div>
+                {question.codeExample && 
+                  <div className="mt-5">
+                    <label 
+                      htmlFor="language"
+                      className="block text-sm font-bold mb-2">
+                      Lenguaje del código
+                    </label>
+                    <select
+                      name="language"
+                      id="language"
+                      className="p-2 rounded-bl-none rounded-br-none"
+                      defaultValue={question.codeLanguage}
+                      onChange={
+                        (e) => setQuiz((prev) => {
+                          const newQuestions = [...prev.questions];
+                          newQuestions[index].codeLanguage = e.target.value;
+                          return { ...prev, questions: newQuestions };
+                        })
+                      }
+                    >
+                      <option disabled value="0">Selecciona un lenguaje</option>
+                      {
+                        listLanguages().map((lang) => (
+                          <option key={lang} value={lang}>
+                            {lang}
+                          </option>
+                        ))
+                      }
+                    </select>
+                    <SyntaxHighlighter 
+                      customStyle={{padding: "1rem"}}
+                      lineNumberContainerStyle={{padding: "1rem"}}
+                      style={atomOneDarkReasonable}
+                      language={question.codeLanguage}>
+                        {question.codeExample}
+                    </SyntaxHighlighter>
+                  </div>
+                }
               </div>
             </div>
           </details>     
