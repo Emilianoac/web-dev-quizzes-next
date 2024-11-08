@@ -5,10 +5,14 @@ import { useRouter } from "next/navigation";
 import { useQuiz } from "@/hooks/useQuizForm";
 import { addQuiz, updateQuiz} from "@/lib/actions/quizActions";
 import { quizSchema, QuizSchema, QuizErrorSchema } from "@/schemas/quizSchema";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { atomOneDarkReasonable} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { listLanguages } from "highlight.js";
+import { type Technology, Quiz, Question, Answer} from "@prisma/client";
+
 import AppButton from "@/components/AppButton";
 import AppLinkButton from "@/components/AppLinkButton";
 import AppLoader from "@/components/AppLoader";
-import { type Technology, Quiz, Question, Answer} from "@prisma/client";
 
 interface QuizFormProps {
   technologies: Technology[];
@@ -23,9 +27,7 @@ interface QuizFormProps {
 export default function QuizForm({ technologies, quizData }: QuizFormProps) {
 
   const router = useRouter();
-
   const { createInitialQuestions, setCorrectAnswer } = useQuiz();
-  const [isLoading, setIsLoading] = useState(false);
 
   const [quiz, setQuiz] = useState({
     isPublic: quizData?.isPublic ? true : false,
@@ -35,9 +37,8 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
     technologyId: quizData?.technologyId || "",
     questions: createInitialQuestions(quizData?.questions.length ?? 5, 4, quizData?.questions)
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState<QuizErrorSchema | undefined>(undefined);
-
 
   function setNumberOfQuestions(num: number) {
     setQuiz((prev) => ({
@@ -80,7 +81,6 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
 
     if (!validSchema.success)  {
       setFormError(validSchema.error.format());
-      console.log(validSchema.error.format()); 
       return false;
     } else {
       setFormError(undefined);
@@ -292,8 +292,8 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                 ))}
               </div>
 
-              {/* Explicación de la respuesta correcta */}
               <div className="mt-8">
+                {/* Explicación de la respuesta correcta */}
                 <div>
                   <label 
                     htmlFor="explanation"
@@ -312,6 +312,8 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                     ))
                   }
                 </div>
+                  
+                {/* Ejemplo de código */}
                 <div className="mt-5">
                   <label 
                     htmlFor="code-example"
@@ -321,9 +323,53 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
                   <textarea 
                     placeholder="Escribe el ejemplo de código"
                     rows={5} 
-                    onChange={(e) => question.codeExample = e.target.value}
-                    defaultValue={question.codeExample}>
+                    defaultValue={question.codeExample}
+                    onChange={
+                      (e) => setQuiz((prev) => {
+                        const newQuestions = [...prev.questions];
+                        newQuestions[index].codeExample = e.target.value;
+                        return { ...prev, questions: newQuestions };
+                      })
+                    }>
                   </textarea>    
+                </div>
+                
+                {/* Lenguaje del código */}
+                <div className="mt-5">
+                  <label 
+                    htmlFor="language"
+                    className="block text-sm font-bold mb-2">
+                    Lenguaje del código
+                  </label>
+                  <select
+                    name="language"
+                    id="language"
+                    className="p-2 rounded-bl-none rounded-br-none"
+                    defaultValue={question.codeLanguage}
+                    onChange={
+                      (e) => setQuiz((prev) => {
+                        const newQuestions = [...prev.questions];
+                        newQuestions[index].codeLanguage = e.target.value;
+                        return { ...prev, questions: newQuestions };
+                      })
+                    }
+                  >
+                    <option disabled value="0">Selecciona un lenguaje</option>
+                    {
+                      listLanguages().map((lang) => (
+                        <option key={lang} value={lang}>
+                          {lang}
+                        </option>
+                      ))
+                    }
+                  </select>
+                  <SyntaxHighlighter 
+                    customStyle={{padding: "1rem"}}
+                    lineNumberContainerStyle={{padding: "1rem"}}
+                    style={atomOneDarkReasonable}
+                    language={question.codeLanguage}>
+                      {question.codeExample}
+                  </SyntaxHighlighter>
                 </div>
               </div>
             </div>

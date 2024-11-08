@@ -11,6 +11,7 @@ export interface Question {
   questionText: string;
   answers: Answer[];
   codeExample: string;
+  codeLanguage: string;
   answerExplain: string;
 }
 

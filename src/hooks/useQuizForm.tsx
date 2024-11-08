@@ -8,11 +8,7 @@ interface QuestionData extends StoredQuestion {
   answers: StoredAnswer[]; // Mover las respuestas aquí
 }
 
-const generateEmptyQuestion = (
-  index: number, 
-  answersCount: number, 
-  questionData?:QuestionData )
-  : Question => ({
+const generateEmptyQuestion = (index: number, answersCount: number, questionData?:QuestionData ): Question => ({
   id: questionData?.id || `new-question-${index + 1}`,
   questionText: questionData?.questionText || "",
   answers: Array.from(
@@ -24,6 +20,7 @@ const generateEmptyQuestion = (
     })
   ) as Answer[],
   codeExample: questionData?.codeExample || "",
+  codeLanguage: questionData?.codeLanguage || "",
   answerExplain: questionData?.answerExplain || ""
 });
 

@@ -34,6 +34,7 @@ export async function addQuiz(data: FormData) {
           create: questions.map((question: Question) => ({
             questionText: question.questionText,
             codeExample: question.codeExample,
+            codeLanguage: question.codeLanguage,
             answerExplain: question.answerExplain,
             answers: {
               create: question.answers.map((answer: Answer) => ({
@@ -87,6 +88,7 @@ export async function updateQuiz(data: FormData) {
             update: {
               questionText: question.questionText,
               codeExample: question.codeExample,
+              codeLanguage: question.codeLanguage,
               answerExplain: question.answerExplain,
               answers: {
                 upsert: question.answers.map((answer: Answer) => ({
@@ -105,6 +107,7 @@ export async function updateQuiz(data: FormData) {
             create: {
               questionText: question.questionText,
               codeExample: question.codeExample,
+              codeLanguage: question.codeLanguage,
               answerExplain: question.answerExplain,
               answers: {
                 create: question.answers.map((answer: Answer) => ({
