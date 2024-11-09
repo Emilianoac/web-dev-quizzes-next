@@ -53,7 +53,11 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
 
             <div className="flex justify-start items-start flex-col w-full mt-2">
               {/* Titulo */}
-              <h2 className="text-start font-bold text-[1em]">{quiz.title}</h2>
+              <h2 
+                title={quiz.title}
+                className="text-start font-bold text-[1em] line-clamp-1">
+                  {quiz.title}
+              </h2>
               {/* Area */}
               <p className="text-slate-600 dark:text-slate-400 text-sm">{quiz.technology.area}</p>
             </div>
