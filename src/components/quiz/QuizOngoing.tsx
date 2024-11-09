@@ -281,6 +281,8 @@ export function CorrrectAnswerExplanationModal({ question, closeModal } : Corrre
       onClick={ () => closeModal() }
       className="absolute  w-full top-0 left-0 h-full bg-black/60 backdrop-blur-[14px] shadow-md z-[9999]">
       <div className=" 
+        max-h-[90vh]
+        overflow-auto
         max-w-[700px] w-[90%]
         absolute top-[50%] left-[50%] translate-y-[-50%]  translate-x-[-50%]
         shadow-xl rounded-lg
