@@ -14,13 +14,13 @@ import AppButton from "@/components/AppButton";
 import AppLinkButton from "@/components/AppLinkButton";
 import AppLoader from "@/components/AppLoader";
 
+type QuestionProps = Question & { answers: Answer[]};
+
 interface QuizFormProps {
   technologies: Technology[];
   quizData?: Quiz &{
     technology: Technology;
-    questions: (Question & {
-      answers: Answer[];
-    })[];
+    questions: QuestionProps[];
   }
 }
 
@@ -45,7 +45,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
       ...prev,
       questions: createInitialQuestions(num, 4)
     }));
-  }
+  };
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -74,7 +74,7 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
       setIsLoading(false);
       console.error(error);
     }
-  }
+  };
 
   function validateFormData(data: QuizSchema) {
     const validSchema = quizSchema.safeParse(data);
@@ -86,6 +86,12 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
       setFormError(undefined);
       return true;
     }
+  };
+
+  function copyQuestionInfo(question: QuestionProps) {
+    const answers = question.answers.map((answer) => answer.answerText).join(", ");
+    navigator.clipboard.writeText(`${question.questionText}, Respuestas: ${answers}, explicación: ${question.answerExplain}`);
+    alert("Información copiada al portapapeles");
   }
 
   return (
@@ -228,6 +234,15 @@ export default function QuizForm({ technologies, quizData }: QuizFormProps) {
               className="border-b border-b-slate-400 dark:border-slate-700 mb-4 last-of-type:border-none"  
               key={question.id} >
             <summary className="text-[1.1em] font-bold mb-4 cursor-pointer">Pregunta {index + 1}</summary>
+
+            {/* Copiar información de la pregunta al portapapeles */}
+            <button
+              type="button"
+              className="text-red-500 hover:text-red-600 text-xs font-bold mb-2"
+              onClick={() => copyQuestionInfo(question as QuestionProps)}>
+              Copiar información de la pregunta
+            </button>
+
             <div className="mb-4">
               <input
                 type="text"
