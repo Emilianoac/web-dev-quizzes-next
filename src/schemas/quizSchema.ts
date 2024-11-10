@@ -19,7 +19,7 @@ export const quizSchema = z.object({
     .boolean(),
   description: z
     .string()
-    .max(255),
+    .max(300),
   technologyId: z
     .string()
     .min(1, { message: "La tecnología es requerida." }),
@@ -47,7 +47,7 @@ export const quizSchema = z.object({
         answerExplain: z
           .string()
           .min(1, { message: "La explicación es requerida." })
-          .max(255)
+          .max(380)
           .superRefine((value, ctx) => {
             if (value && value.trim() === "") {
               ctx.addIssue({
