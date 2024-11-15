@@ -4,6 +4,7 @@ import QuizCard from "@/components/cards/QuizCard";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
+import type { Quiz } from "@prisma/client";
 import appMetaData from "@/constants/metaData";
 
 interface Props {
@@ -13,13 +14,12 @@ interface Props {
 }
 
 async function getTechnology(slug: string) {
-  try {
+  try {  
     const technology = await prisma.technology.findUnique({
       where: { slug },
       include: {
         area: true,
         quiz: {
-          orderBy: { level: "asc" },
           where: { isPublic: true },
           include: {
             questions: {
@@ -49,7 +49,13 @@ export async function generateMetadata( { params }: Props ): Promise<Metadata> {
 export default async function TechnologyPage({ params }: Props) {
 
   const technology = await getTechnology(params.id);
+
   if (!technology) redirect("/");
+
+  const levelOrder = { basico: 0, intermedio: 1, avanzado: 2};
+  technology.quiz.sort((a: Quiz, b: Quiz) => {
+    return levelOrder[a.level as keyof typeof levelOrder] - levelOrder[b.level as keyof typeof levelOrder];
+  });
 
   return (
     <div>
