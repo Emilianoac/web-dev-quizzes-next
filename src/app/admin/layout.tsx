@@ -27,7 +27,7 @@ export default async function AmdminLayout({ children }: Readonly<{ children: Re
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-[250px_minmax(200px,1fr)] gap-4">
         <div>
           <aside 
             className="
