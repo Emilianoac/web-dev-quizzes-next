@@ -19,6 +19,9 @@ const appMetaData = {
       Pon a prueba tus conocimientos y descubre cuánto sabes sobre
     `,
   },
+  mis_favoritos: {
+    title: "Mis Favoritos",
+  },
   admin: {
     title: "Admin",
   },

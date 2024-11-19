@@ -3,6 +3,13 @@ import prisma from "@/lib/prisma";
 import QuizCard from "@/components/cards/QuizCard";
 import FavoritesCookieService from "@/lib/cookies/favorites";
 
+import type { Metadata } from "next";
+import appMetaData from "@/constants/metaData";
+
+export const metadata: Metadata = {
+  title: appMetaData.mis_favoritos.title,
+}
+
 export default async function favoritesPage() {
 
   const favoritesCookieService = new FavoritesCookieService();
