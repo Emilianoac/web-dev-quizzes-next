@@ -233,20 +233,28 @@ export default function QuizOnGoing({ quiz, config, setFinish }: QuizOnGoingProp
           </AppButton>
           }
           { currentQuestion  !== questions.length - 1 ?
-            <AppButton
-              disabled={selectedAnswer === null || progressPercentage === 100}
-              className="text-sm md:text-base"
-              onClick={() => !checkAnswer ? handleCheckAnwer() : handleNextQuestion()}
-            >
-              {checkAnswer ? "Siguiente Pregunta" : "Verificar"}
-              {checkAnswer && progressPercentage === 100 && "Finalizar"}
-            </AppButton>:
-            <AppButton
-              className="text-sm md:text-base"
-              onClick={() => !checkAnswer ? handleCheckAnwer() : finishQuiz()}
-            >
-              {checkAnswer ? "Finalizar Quiz" : "Verificar"}
-            </AppButton>
+            <>
+              {/* Siguiente pregunta */}
+              <AppButton
+                disabled={selectedAnswer === null || progressPercentage === 100}
+                className="text-sm md:text-base"
+                onClick={() => !checkAnswer ? handleCheckAnwer() : handleNextQuestion()}
+              >
+                {checkAnswer ? "Siguiente Pregunta" : "Verificar"}
+                {checkAnswer && progressPercentage === 100 && "Finalizar"}
+              </AppButton>
+            </>
+            :
+            <>
+              {/* Finalizar quiz */}
+              <AppButton
+                disabled={selectedAnswer === null}
+                className="text-sm md:text-base"
+                onClick={() => !checkAnswer ? handleCheckAnwer() : finishQuiz()}
+              >
+                {checkAnswer ? "Finalizar Quiz" : "Verificar"}
+              </AppButton>
+            </>
           }
         </div>
       </div>
