@@ -74,7 +74,7 @@ export default async function AppNavbar() {
                   key={index}>
                   <AppNavLink
                     className="
-                      text-slate-700 text-xs dark:text-white
+                      text-slate-700 text-sm dark:text-white
                       hover:text-white dark:hover:text-slate-700
                       flex flex-col items-center justify-center
                     "
@@ -82,7 +82,7 @@ export default async function AppNavbar() {
                     href={item.href}
                     >
                     <item.icon className="w-4 h-4" />
-                    <span className=" dark:text-white text-slate-700">{item.name}</span>
+                    <span className="dark:text-white text-slate-700 mt-1">{item.name}</span>
                   </AppNavLink>
                 </li>
               ))
