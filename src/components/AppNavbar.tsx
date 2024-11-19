@@ -5,7 +5,6 @@ import AppDarkModeToggle from "./AppDarkModeToggle";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import UserDropdown from "./UserDropdown";
-import AppLinkButton from "./AppLinkButton";
 import { FaStar, FaHome } from "react-icons/fa";
 import AppNavLink from "./AppNavLink";
 
