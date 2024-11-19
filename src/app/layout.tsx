@@ -9,7 +9,6 @@ export const metadata: Metadata = {
     default: "Web Dev Quizzes", 
     template: "%s - Web Dev Quizzes" 
   },
-  description: "Test your web development knowledge",
 };
 
 export default function RootLayout({
@@ -18,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className="bg-background text-black dark:bg-slate-900 dark:text-white pb-12 md:pb-0">
         <NextTopLoader color="#ff3c9d"/>
         <ThemeProvider>
