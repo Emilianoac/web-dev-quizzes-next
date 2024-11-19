@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-background text-black dark:bg-slate-900 dark:text-white">
+      <body className="bg-background text-black dark:bg-slate-900 dark:text-white pb-12 md:pb-0">
         <NextTopLoader color="#ff3c9d"/>
         <ThemeProvider>
           <AppNavbar />
