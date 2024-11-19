@@ -7,6 +7,7 @@ import { authOptions } from "@/utils/authOptions";
 import UserDropdown from "./UserDropdown";
 import AppLinkButton from "./AppLinkButton";
 import { FaStar, FaHome } from "react-icons/fa";
+import AppNavLink from "./AppNavLink";
 
 
 export default async function AppNavbar() {
@@ -54,7 +55,7 @@ export default async function AppNavbar() {
       <nav 
         className="
           block md:hidden
-          fixed w-full bottom-0 z-[999] py-3 
+          fixed w-full bottom-0 z-[999] py-1
           dark:bg-blue-gray bg-white
           border-t dark:border-slate-800 border-slate-200
           "
@@ -69,17 +70,18 @@ export default async function AppNavbar() {
                     [&:nth-child(2n)]:justify-self-center
                   "
                   key={index}>
-                  <Link 
+                  <AppNavLink
                     className="
                       text-slate-700 text-xs dark:text-white
                       hover:text-white dark:hover:text-slate-700
                       flex flex-col items-center justify-center
                     "
-                    href={item.href
-                  }>
+                    link={item.href}
+                    href={item.href}
+                    >
                     <item.icon className="w-4 h-4" />
-                    {item.name}
-                  </Link>
+                    <span className=" dark:text-white text-slate-700">{item.name}</span>
+                  </AppNavLink>
                 </li>
               ))
             }
