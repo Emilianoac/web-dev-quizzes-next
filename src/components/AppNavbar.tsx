@@ -29,18 +29,16 @@ export default async function AppNavbar() {
             <Link href="/">
               <AppLogo className="w-[160px] md:w-[200px]"/>
             </Link>
-            <div className="flex gap-1 items-center">
-              <AppLinkButton
+            <div className="flex gap-5 items-center">
+              <AppNavLink
                 href="/favoritos"
+                link="/favoritos"
                 className="
-                  hidden md:block p-0
-                  bg-transparent hover:bg-transparent 
-                  !text-slate-700 dark:!text-white text-sm
-                  dark:hover:!text-slate-400 hover:!text-slate-900
+                  hidden md:block text-[0.9rem]
                 "
               >  
               Mis Favoritos
-              </AppLinkButton> 
+              </AppNavLink> 
               <AppDarkModeToggle />
               {session && 
                 <UserDropdown
