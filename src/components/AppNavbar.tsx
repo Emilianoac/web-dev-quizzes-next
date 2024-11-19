@@ -52,12 +52,14 @@ export default async function AppNavbar() {
           </div>
         </div>
       </nav>
+
+      {/* Mobile Menu */}
       <nav 
         className="
           block md:hidden
           fixed w-full bottom-0 z-[999] py-1
-          dark:bg-blue-gray bg-white
-          border-t dark:border-slate-800 border-slate-200
+          dark:bg-slate-900 bg-white
+          border-t dark:border-slate-800/70 border-slate-200
           "
         >
         <div className="container">
