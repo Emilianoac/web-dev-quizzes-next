@@ -80,7 +80,7 @@ export default function TechnologiesGrid({ areas }: TechnologyGridProps) {
 
       {/* Contador de quizzes */}
       <p className="text-sm text-end mb-3 mt-6">
-        <strong>{quizCount > 1 ? `${quizCount} quizzes` : `${quizCount} quiz`}</strong>
+        {quizCount > 1 ? "Quizzes" : "Quiz"}: <strong>{quizCount}</strong>
       </p>
 
        {/* Grid de tecnologias */}
