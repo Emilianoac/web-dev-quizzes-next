@@ -14,7 +14,7 @@ export default function Navlink({className,link, title, children, ...props}: Men
 
   return (
     <Link 
-      href={"#"} 
+      href={link ? link : "#"} 
       className={ 
         `
         ${className || ""}
