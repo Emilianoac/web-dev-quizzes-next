@@ -5,6 +5,7 @@ import AppDarkModeToggle from "./AppDarkModeToggle";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import UserDropdown from "./UserDropdown";
+import AppLinkButton from "./AppLinkButton";
 
 export default async function AppNavbar() {
   const session = await getServerSession(authOptions);
@@ -19,8 +20,19 @@ export default async function AppNavbar() {
           <Link href="/">
             <AppLogo className="w-[160px] md:w-[200px]"/>
           </Link>
-          <div className="flex gap-3">
-            <AppDarkModeToggle />    
+          <div className="flex gap-1 items-center">
+            <AppLinkButton
+              href="/favoritos"
+              className="
+                hidden md:block p-0
+                bg-transparent hover:bg-transparent 
+                !text-slate-700 dark:!text-white text-sm
+                dark:hover:!text-slate-400 hover:!text-slate-900
+              "
+            >  
+             Mis Favoritos
+            </AppLinkButton> 
+            <AppDarkModeToggle />
             {session && 
               <UserDropdown
                 image={ session?.user?.image as string} 

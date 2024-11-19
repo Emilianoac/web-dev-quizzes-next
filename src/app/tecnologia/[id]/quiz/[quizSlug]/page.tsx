@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import appMetaData from "@/constants/metaData";
+import FavoritesCookieService from "@/lib/cookies/favorites";
 
 interface QuizPageProps {
   params: {
@@ -51,9 +52,15 @@ export default async function QuizzPage({ params }: QuizPageProps) {
   const quiz = await getQuiz(params.quizSlug);
   if (!quiz) redirect("/");
 
+  const cookieService = new FavoritesCookieService();
+  const data = cookieService.getCookie("_favorites");
+  const favorites = data ? cookieService.decodeCookie(data) : [];
+
+  const isFavorite = favorites?.includes(quiz.id);
+
   return (
     <>
-      <QuizMain quiz={quiz}/>
+      <QuizMain isFavorite={isFavorite} quiz={quiz}/>
     </>
   )
 }

@@ -1,6 +1,7 @@
 
 import { Quiz, Technology, Area, Answer, Question } from "@prisma/client";
 import Image from "next/image";
+import ButtonAddToFavorite from "./ButtonAddToFavorite";
 
 
 interface QuizResultsProps {
@@ -13,10 +14,11 @@ interface QuizResultsProps {
       answers: Answer[];
     })[];
   };
+  isFavorite: boolean;
 }
 
 
-export default function QuizResults({ history,  quiz }: QuizResultsProps) {
+export default function QuizResults({ history,  quiz, isFavorite }: QuizResultsProps) {
 
   const setResults = () => {
     return history.map((answer) => {
@@ -56,7 +58,8 @@ export default function QuizResults({ history,  quiz }: QuizResultsProps) {
    <div>
 
       {/* Header Resultados */}
-      <div className="bg-secondary-700 p-5 md:p-10 text-center rounded-md text-white">
+      <div className="bg-secondary-700 p-5 md:p-10 text-center rounded-md text-white relative">
+        <ButtonAddToFavorite isFavorite={isFavorite} quizId={quiz.id} className="absolute right-3 top-3 text-xl p-2" />
         <p className="font-semibold text-base md:text-xl">Resultados Quiz</p>
         <h4 className="text-xl md:text-3xl font-bold">{quiz.title}</h4>
         <div className="bg-slate-100 w-[100px] h-[100px] md:w-[150px] md:h-[150px] rounded-full mx-auto flex justify-center items-center mt-4 relative">

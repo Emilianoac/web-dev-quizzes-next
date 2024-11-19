@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import QuizLevelBadge from "./QuizLevelBadge";
 import CardActions from "./CardActions";
+import ButtonAddToFavorite from "../quiz/ButtonAddToFavorite";
+import FavoritesCookieService from "@/lib/cookies/favorites";
 
 interface QuizCardProps {
   quiz: {
@@ -24,14 +26,23 @@ interface QuizCardProps {
 type Level = "basico" | "intermedio" | "avanzado";
 
 export default function QuizCard({ quiz, admin }: QuizCardProps) {
+
+  const cookieService = new FavoritesCookieService();
+  const data = cookieService.getCookie("_favorites");
+  const favorites = data ? cookieService.decodeCookie(data) : [];
+
+  const isFavorite = favorites?.includes(quiz.id);
+
   return (
     <article
       key={quiz.slug} 
-      className="app-card">
+      className="app-card relative">
+        {/* Favoritos */}
+        <ButtonAddToFavorite className="absolute right-3 top-3" quizId={quiz.id} isFavorite={isFavorite} />
         <Link className="p-4 block" href={`/tecnologia/${quiz.technology.slug}/quiz//${quiz.slug}`}>
           <div>
             <div className="flex justify-between items-start">
-              {/* Icono */}
+              {/* Icono Tencologia */}
               <div className="
                 bg-slate-100
                 p-2 rounded-full
@@ -47,15 +58,14 @@ export default function QuizCard({ quiz, admin }: QuizCardProps) {
                   className="h-[30px] w-[30px] object-scale-down"
                 />         
               </div>
-              <QuizLevelBadge level={quiz.level as Level} />
             </div>
 
-
             <div className="flex justify-start items-start flex-col w-full mt-2">
+              <QuizLevelBadge level={quiz.level as Level} className="mt-4 mb-2" />
               {/* Titulo */}
               <h2 
                 title={quiz.title}
-                className="text-start font-bold text-[1em] line-clamp-1">
+                className="text-start font-bold text-[0.95em] line-clamp-1">
                   {quiz.title}
               </h2>
               {/* Area */}

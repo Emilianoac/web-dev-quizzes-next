@@ -1,11 +1,12 @@
 "use server";
 
-import slugify from "slugify";
-import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
+import slugify from "slugify";
+import FavoritesCookieService from "@/lib/cookies/favorites";
 import type { Question, Answer } from "@/types/quiz";
 import { quizSchema } from "@/schemas/quizSchema";
-import prisma from "@/lib/prisma";
 
 export async function addQuiz(data: FormData) {
 
@@ -134,9 +135,7 @@ export async function updateQuiz(data: FormData) {
 export async function deleteQuiz(id: string) {
   try {
     await prisma.quiz.delete({
-      where: {
-        id: id
-      }
+      where: { id: id }
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -144,9 +143,22 @@ export async function deleteQuiz(id: string) {
     }
     throw e
   }
-
   revalidatePath("/admin");
 };
+
+export async function setFavoritesCookie(id: string) {
+  const favoritesService = new FavoritesCookieService();
+  
+  const cookieName = "_favorites";
+  const favoritesCookie = favoritesService.getCookie(cookieName);
+  
+  if (!favoritesCookie) {
+    favoritesService.createCookie(id, cookieName);
+  } else {
+    favoritesService.updateCookie(favoritesCookie, cookieName, id);
+  }
+  revalidatePath("/favoritas");
+}
 
 function validateData(data: FormData) {
   const title = data.get("title") as string;
@@ -174,5 +186,5 @@ function validateData(data: FormData) {
   } else {
     return true
   }
-}
+};
 

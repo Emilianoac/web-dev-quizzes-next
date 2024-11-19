@@ -7,6 +7,7 @@ import type { Quiz, Technology, } from "@prisma/client";
 import QuizLevelBadge from "@/components/cards/QuizLevelBadge";
 import AppCheckboxToggle from "@/components/AppCheckboxToggle";
 import AppButton from "@/components/AppButton";
+import ButtonAddToFavorite from "./ButtonAddToFavorite";
 
 
 interface SetStartProps {
@@ -20,13 +21,14 @@ interface QuizInitProps {
   setStart: (value: SetStartProps) => void;
   quiz: Quiz & {
     technology: Technology;
-  }
+  };
+  isFavorite: boolean;
 }
 
 type Level = "basico" | "intermedio" | "avanzado";
 
 
-export default function QuizInit({ quiz, setStart }: QuizInitProps) {
+export default function QuizInit({ quiz, setStart, isFavorite }: QuizInitProps) {
 
   const [config, setConfig] = useState({
     hideOptions: false
@@ -43,6 +45,8 @@ export default function QuizInit({ quiz, setStart }: QuizInitProps) {
           rounded-lg shadow-md"
         >
           <div className="p-6">
+            <ButtonAddToFavorite isFavorite={isFavorite} quizId={quiz.id} className="absolute right-3 top-3" />
+
             {/* Nivel del quiz */}
             <QuizLevelBadge 
               level={quiz.level as Level } 

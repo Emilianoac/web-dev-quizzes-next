@@ -8,11 +8,11 @@ export default function AppLinkButton({ className, children, ...props }: AppLink
   return (
     <Link
       className={`
+        ${className || ""}
         bg-primary-500 text-white font-semibold
         py-2 px-4 rounded-md
         hover:bg-primary-700
         transition-colors duration-300 ease-in-out
-        ${className || ""}
       `}
       href={"#"}
       {...props}

@@ -9,6 +9,7 @@ import QuizResults from "./QuizResults";
 import type { Quiz, Technology, Question, Answer, Area} from "@prisma/client";
 
 interface QuizMainProps {
+  isFavorite: boolean;
   quiz: Quiz & {
     technology: Technology & {
       area: Area;
@@ -19,7 +20,7 @@ interface QuizMainProps {
   };
 }
 
-export default function QuizMain({ quiz }: QuizMainProps) {
+export default function QuizMain({ quiz, isFavorite }: QuizMainProps) {
   const [start, setStart] = useState({
     status: false,
     config: {
@@ -33,10 +34,10 @@ export default function QuizMain({ quiz }: QuizMainProps) {
 
   const renderQuizContent = () => {
     if (!start.status) {
-      return <QuizInit quiz={quiz} setStart={setStart} />;
+      return <QuizInit isFavorite={isFavorite} quiz={quiz} setStart={setStart} />;
     }
     if (finish.status) {
-      return <QuizResults history={finish.history} quiz={quiz} />;
+      return <QuizResults isFavorite={isFavorite} history={finish.history} quiz={quiz} />;
     }
     return <QuizOnGoing 
       quiz={quiz} 
