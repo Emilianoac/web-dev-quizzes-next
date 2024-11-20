@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
 import  {setFavoritesCookie} from "@/lib/actions/quizActions";
 import { useState } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import { useNotification } from "@/context/NotificationContext";
 
 interface BtnFavoritesProps extends React.HTMLProps<HTMLButtonElement> {
   quizId: string;
@@ -11,12 +12,15 @@ interface BtnFavoritesProps extends React.HTMLProps<HTMLButtonElement> {
 
 export default function BtnFavorites({isFavorite, quizId, className }: BtnFavoritesProps) {
   const [favorite, setFavorite] = useState(isFavorite || false);
+  const { showNotification } = useNotification(); // Usar el hook d
 
   async function handleFavorite() {
     if (!quizId) return;
 
     await setFavoritesCookie(quizId);
+
     setFavorite(!favorite);
+    showNotification(favorite ? "Eliminado de favoritos" : "Añadido a favoritos");
   }
   
   return (

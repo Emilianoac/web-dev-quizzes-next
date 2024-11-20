@@ -3,6 +3,7 @@ import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import AppNavbar from "@/components/AppNavbar";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { NotificationProvider } from "@/context/NotificationContext";
 
 export const metadata: Metadata = {
   title: { 
@@ -22,8 +23,10 @@ export default function RootLayout({
         <NextTopLoader color="#ff3c9d"/>
         <ThemeProvider>
           <AppNavbar />
-          <div className="container my-5">
+          <div className="container my-5 relative">
+            <NotificationProvider>
             {children}
+            </NotificationProvider>
           </div>
         </ThemeProvider>
       </body>
