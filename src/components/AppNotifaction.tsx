@@ -4,7 +4,7 @@ interface AppNotifactionProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export default function AppNotifaction({className, children}: AppNotifactionProps) {
+export default function AppNotifaction({children}: AppNotifactionProps) {
   return (
     <div 
       className="
