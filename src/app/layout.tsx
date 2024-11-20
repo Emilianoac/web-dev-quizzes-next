@@ -23,7 +23,7 @@ export default function RootLayout({
         <NextTopLoader color="#ff3c9d"/>
         <ThemeProvider>
           <AppNavbar />
-          <div className="container my-5 relative">
+          <div className="container my-5">
             <NotificationProvider>
             {children}
             </NotificationProvider>
